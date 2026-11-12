@@ -43,11 +43,11 @@ if (isWatchMode) {
   const extensionContext = await esbuild.context(extensionBuildOptions)
   const webviewContext = await esbuild.context(webviewBuildOptions)
   await Promise.all([extensionContext.watch(), webviewContext.watch()])
-  console.log('[ly-new-api-dashboard] watching extension and webview sources')
+  console.log('[new-api-dashboard] watching extension and webview sources')
 } else {
   await Promise.all([
     esbuild.build(extensionBuildOptions),
     esbuild.build(webviewBuildOptions),
   ])
-  console.log('[ly-new-api-dashboard] build complete')
+  console.log('[new-api-dashboard] build complete')
 }

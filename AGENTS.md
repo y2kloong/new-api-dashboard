@@ -8,9 +8,9 @@
   Update `CHANGELOG.md` in the same change.
 - Tag the release `vX.Y.Z`; the tag triggers `.github/workflows/release.yml`,
   which tests, packages and attaches the VSIX to the GitHub Release.
-- The extension id stays `y2kloong.ly-new-api-dashboard` across renames; keep
-  command ids (`lyNewApi.*`), settings keys and the VSIX filename stable unless
-  a migration is planned.
+- The extension id is `y2kloong.new-api-dashboard`; keep command ids
+  (`lyNewApi.*`), settings keys and the VSIX filename stable unless a migration
+  is planned.
 
 ## Agent skills
 

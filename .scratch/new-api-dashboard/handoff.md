@@ -1,7 +1,7 @@
-# Handoff — NewAPI Dashboard 0.2.0
+# Handoff — NewAPI Dashboard 0.3.0
 
-Status: 0.2.0 packaged and installed, ready for GitHub / Open VSX / Marketplace
-publishing. The 0.1.0 acceptance pass and the follow-up UI round are complete.
+Status: 0.3.0 packaged and installed, ready for GitHub / Open VSX / Marketplace
+publishing. The 0.1.0 acceptance pass and the 0.2.0 UI round are complete.
 
 ## TL;DR for the next session
 
@@ -43,9 +43,11 @@ dashboard.
 ## Naming
 
 The display name and every user-facing title are **NewAPI Dashboard** (previous
-"Ly New API 看板"). The package id stays `y2kloong.ly-new-api-dashboard`, so the
-existing install, saved profiles, settings keys (`lyNewApi.*`), command ids and
-the VSIX filename remain valid.
+"Ly New API 看板"). The package name is `new-api-dashboard` and the extension id
+is `y2kloong.new-api-dashboard`. Changing the id means `SecretStorage` and
+extension state do not carry over from 0.2.0: re-add the server profile/token
+once and uninstall the old extension. Command ids (`lyNewApi.*`), settings keys
+and webview behaviour are unchanged.
 
 ## Test runner note
 
@@ -57,8 +59,8 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
 
 ## Artifacts
 
-- VSIX: `ly-new-api-dashboard-0.2.0.vsix` (repo root, ~323 KB)
-- Installed in Cursor as `y2kloong.ly-new-api-dashboard@0.2.0`
+- VSIX: `new-api-dashboard-0.3.0.vsix` (repo root, ~323 KB)
+- Installed in Cursor as `y2kloong.new-api-dashboard@0.3.0`
 - Built bundle: `dist/extension.js`, `dist/webview/main.{js,css}`
 - Icons: `media/icon.png` (Marketplace, 128×128), `media/icon.svg`,
   `media/activity{,-light}.svg`
@@ -97,7 +99,7 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
   `media/activity{,-light}.svg`.
 - `docs/adr/0001..0004`, `docs/icon-credits.md`, `GLOSSARY.md`,
   `.scratch/new-api-dashboard/spec.md`,
-  `design-system/ly-new-api-dashboard/MASTER.md`.
+  `design-system/new-api-dashboard/MASTER.md`.
 
 ## Verified
 
@@ -107,7 +109,7 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
 - `npm run package`: VSIX builds (13 files, ~322 KB); vsce warns only about the
   835 KB webview JS.
 - `cursor --install-extension ... --force`: installed as
-  `y2kloong.ly-new-api-dashboard@0.2.0`.
+  `y2kloong.new-api-dashboard@0.3.0`.
 - Live probe against `https://newapi-devops.szlanyou.com` with a regular token
   (role 1): 25 hourly buckets, 7 cards, subscription #233 「基础套餐」
   ¥108.96/¥500, 2989 days remaining, quota data export enabled.
@@ -130,11 +132,13 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
   must keep `pool: 'vmForks'`; the default forks pool fails to collect tests
   in this workspace path.
 
-## Release prep (0.2.0)
+## Release prep (0.3.0)
 
-- Version bumped to `0.2.0`; packaging always bumps the version (see the rule in
+- Package/repository renamed to `new-api-dashboard`; extension id is now
+  `y2kloong.new-api-dashboard`.
+- Version bumped to `0.3.0`; packaging always bumps the version (see the rule in
   `AGENTS.md`).
-- `CHANGELOG.md` has a 0.2.0 section.
+- `CHANGELOG.md` has a 0.3.0 section.
 - `.github/workflows/release.yml` runs tests, typechecks, packages the VSIX and
   attaches it to a GitHub Release on a `v*` tag.
 - `package-lock.json` was regenerated against `https://registry.npmjs.org` and
@@ -157,9 +161,9 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
    expired subscription was observed.
 4. **GitHub**: local repository initialized on `main`, first commit `b2735d7`.
    No remote yet. Next steps once credentials exist:
-   - create `y2kloong/ly-new-api-dashboard`;
+   - create `y2kloong/new-api-dashboard`;
    - `git remote add origin ...`, push `main`;
-   - `git tag v0.2.0 && git push origin v0.2.0` to let the release workflow
+   - `git tag v0.3.0 && git push origin v0.3.0` to let the release workflow
      build and attach the VSIX.
 5. **Publishing**:
    - Open VSX: namespace `y2kloong`, then `OVSX_PAT=... npx ovsx publish`.
@@ -190,7 +194,7 @@ npm test
 npm run watch        # extension + webview rebuild
 npm run build
 npm run package      # produces the VSIX
-cursor --install-extension ly-new-api-dashboard-0.2.0.vsix --force
+cursor --install-extension new-api-dashboard-0.3.0.vsix --force
 ```
 
 ## Design constraints to preserve

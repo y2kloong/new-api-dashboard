@@ -1,14 +1,14 @@
 {
-  "name": "ly-new-api-dashboard",
+  "name": "new-api-dashboard",
   "displayName": "NewAPI Dashboard",
   "description": "Unofficial New API usage dashboard for VS Code and Cursor: model call analytics, quota distribution and subscription status without leaving the editor.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "y2kloong",
   "license": "MIT",
   "icon": "media/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/y2kloong/ly-new-api-dashboard.git"
+    "url": "https://github.com/y2kloong/new-api-dashboard.git"
   },
   "engines": {
     "vscode": "^1.85.0"

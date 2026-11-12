@@ -37,5 +37,5 @@ jobs:
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: ly-new-api-dashboard-*.vsix
+          files: new-api-dashboard-*.vsix
           generate_release_notes: true

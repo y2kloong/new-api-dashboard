@@ -1,9 +1,17 @@
 # Changelog
 
+## 0.3.0
+
+- Renamed the package and repository to `new-api-dashboard` (the previous
+  prefix was dropped). The extension id is now `y2kloong.new-api-dashboard`.
+- Because VS Code stores `SecretStorage` and extension state per extension id,
+  the 0.2.0 profile and token do not carry over; re-add the server profile once
+  and uninstall the old 0.2.0 extension if it is still installed.
+
 ## 0.2.0
 
 - Renamed the extension to **NewAPI Dashboard** (display name and all UI
-  titles). The package id remains `y2kloong.ly-new-api-dashboard`.
+  titles). The package id was left unchanged in this release.
 - Added an Explorer side bar view alongside the activity bar view.
 - Added a theme switch (follow editor / dark / light) with an appearance
   control in the configuration page; high-contrast themes keep their accessible

@@ -23,13 +23,13 @@
 扩展以 `.vsix` 分发，VS Code 与 Cursor 均支持：
 
 ```bash
-code --install-extension ly-new-api-dashboard-0.2.0.vsix
+code --install-extension new-api-dashboard-0.3.0.vsix
 ```
 
 Cursor 可以用命令面板的 **Extensions: Install from VSIX…**，或：
 
 ```bash
-cursor --install-extension ly-new-api-dashboard-0.2.0.vsix
+cursor --install-extension new-api-dashboard-0.3.0.vsix
 ```
 
 也可以直接在扩展视图右上角 `...` → **Install from VSIX…** 选择文件。
@@ -122,7 +122,7 @@ analytics dashboard and your subscription status without opening a browser.
 ## Install
 
 ```bash
-code --install-extension ly-new-api-dashboard-0.2.0.vsix
+code --install-extension new-api-dashboard-0.3.0.vsix
 ```
 
 Or use **Extensions: Install from VSIX…** in VS Code or Cursor.
