@@ -1,14 +1,22 @@
 # Handoff — NewAPI Dashboard 0.3.0
 
-Status: 0.3.0 packaged and installed, ready for GitHub / Open VSX / Marketplace
-publishing. The 0.1.0 acceptance pass and the 0.2.0 UI round are complete.
+Status: **published**. `0.3.0` is live on both Open VSX and the VS Code
+Marketplace; the GitHub repository and `v0.3.0` Release (with the VSIX) exist.
+The extension id is now `y2kloong.new-api-dashboard`.
+
+## Published
+
+- Marketplace: <https://marketplace.visualstudio.com/items?itemName=y2kloong.new-api-dashboard>
+- Open VSX: <https://open-vsx.org/extension/y2kloong/new-api-dashboard>
+- GitHub Release: <https://github.com/y2kloong/new-api-dashboard/releases/tag/v0.3.0>
+- VSIX asset: `new-api-dashboard-0.3.0.vsix`
 
 ## TL;DR for the next session
 
-The dashboard and the feedback round are complete and packaged. The remaining
-work is: re-check the new UI after reload, GitHub repository creation/push,
-optional CI, and Open VSX / Marketplace publishing. Do not re-implement the
-dashboard.
+Do not re-publish 0.3.0 with different contents. Bump the version, update the
+CHANGELOG, push a new `vX.Y.Z` tag, and let the Release workflow publish both
+marketplaces. The remaining work is token rotation, re-adding the server
+profile after the extension-id change, and optional polish.
 
 ## Acceptance-feedback round (2025-11-11)
 
@@ -148,45 +156,42 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
   was created for `y2kloong/new-api-dashboard`, workflow `release.yml`,
   provider GitHub Actions. No Azure DevOps PAT or Azure subscription is needed.
 - Open VSX: Eclipse account created, Publisher Agreement signed, namespace
-  `y2kloong` created, access token generated (publish pending).
+  `y2kloong` created. `0.3.0` published locally with `npx ovsx publish`.
+- Marketplace `0.3.0` published by the tagged GitHub Actions run through
+  `npx @vscode/vsce publish --oidc` (Trusted Publishing).
+- GitHub repository created at `y2kloong/new-api-dashboard`; `main` pushed,
+  `v0.3.0` tagged, and the workflow attached
+  `new-api-dashboard-0.3.0.vsix` to the GitHub Release.
 - `package-lock.json` was regenerated against `https://registry.npmjs.org` and
   `.npmrc` pins the public registry, so GitHub Actions can install it.
-- Local git repository initialized (`main`), commits up to the rename; no remote
-  yet because GitHub credentials are not available inside the agent shell.
-- Remaining blockers: create/push the GitHub repository and push the `v0.3.0`
-  tag; add the `OVSX_PAT` repository secret if Open VSX should publish from CI.
+- Tokens for local publishing live in the git-ignored `.env.local`
+  (`GITHUB_TOKEN`, `OVSX_PAT`). They appeared in chat / terminal output during
+  setup, so rotate them now that 0.3.0 is live.
+- Remaining blockers: none for the 0.3.0 release. For future releases, the
+  GitHub Actions `OVSX_PAT` repository secret is optional; without it the CI
+  Open VSX step is skipped and Open VSX can be published locally.
 
 ## Open items
 
-1. **Re-verify the feedback round**: `Developer: Reload Window`, then check the
-   Explorer side-bar view, the theme cycle, the appearance control, profile
-   editing and the single configuration entry. The previous acceptance pass
-   covered the dashboard itself.
-2. **Not yet tested against a real admin token**: admin data source,
+1. **Re-add the server profile**: the extension id changed to
+   `y2kloong.new-api-dashboard`, so the old `SecretStorage` entry does not carry
+   over. Reload Cursor, open the configuration page and save the server URL and
+   token once.
+2. **Token rotation**: rotate the GitHub PAT and Open VSX token that were used
+   during setup, then update the git-ignored `.env.local` (or delete it if no
+   more local publishes are needed).
+3. **Not yet tested against a real admin token**: admin data source,
    performance strip and username filter are implemented but the available token
    is role 1. Test with an admin token before claiming it works.
-3. **Expired/cancelled subscriptions** are covered by fixtures only; no real
+4. **Expired/cancelled subscriptions** are covered by fixtures only; no real
    expired subscription was observed.
-4. **GitHub**: local repository initialized on `main`, first commit `b2735d7`.
-   No remote yet. Next steps once credentials exist:
-   - create `y2kloong/new-api-dashboard`;
-   - `git remote add origin ...`, push `main`;
-   - `git tag v0.3.0 && git push origin v0.3.0` to let the release workflow
-     build and attach the VSIX.
-5. **Publishing**:
-   - Open VSX: Eclipse account, Publisher Agreement and namespace `y2kloong`
-     are done. Publish with `OVSX_PAT=... npx ovsx publish
-     new-api-dashboard-0.3.0.vsix`, or add `OVSX_PAT` as a GitHub repository
-     secret for CI.
-   - VS Code Marketplace: publisher `y2kloong` exists; Trusted Publishing
-     policy `Release workflow` is configured for `y2kloong/new-api-dashboard`
-     and `.github/workflows/release.yml`. The workflow publishes with
-     `npx @vscode/vsce publish --oidc`, so no Azure DevOps PAT or Azure
-     subscription is required. Do not create an Azure DevOps organization just
-     for this; it now asks for an Azure subscription.
-   - Confirm the iconfont icon licence before the first public Marketplace
-     release.
-6. **Optional polish**: reduce the ECharts bundle with code splitting; add a
+5. **Future releases**: bump the version, update `CHANGELOG.md`, commit, push a
+   `vX.Y.Z` tag. The Release workflow publishes to the Marketplace via OIDC and
+   attaches the VSIX to the GitHub Release. To publish Open VSX from CI, add an
+   `OVSX_PAT` repository secret; otherwise publish it locally.
+6. **Marketplace icon licence**: confirm the iconfont glyph licence documented
+   in `docs/icon-credits.md`.
+7. **Optional polish**: reduce the ECharts bundle with code splitting; add a
    link to the site's own dashboard; more languages; admin fixture tests.
 
 ## Security / secrets
