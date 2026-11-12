@@ -130,6 +130,20 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
   must keep `pool: 'vmForks'`; the default forks pool fails to collect tests
   in this workspace path.
 
+## Release prep (0.2.0)
+
+- Version bumped to `0.2.0`; packaging always bumps the version (see the rule in
+  `AGENTS.md`).
+- `CHANGELOG.md` has a 0.2.0 section.
+- `.github/workflows/release.yml` runs tests, typechecks, packages the VSIX and
+  attaches it to a GitHub Release on a `v*` tag.
+- `package-lock.json` was regenerated against `https://registry.npmjs.org` and
+  `.npmrc` pins the public registry, so GitHub Actions can install it.
+- Local git repository initialized (`main`), first commit `b2735d7`; no remote
+  yet because GitHub credentials are not available on this machine.
+- Remaining blockers: GitHub repo creation/push, Open VSX token, Marketplace
+  publisher account/PAT.
+
 ## Open items
 
 1. **Re-verify the feedback round**: `Developer: Reload Window`, then check the
@@ -141,18 +155,20 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
    is role 1. Test with an admin token before claiming it works.
 3. **Expired/cancelled subscriptions** are covered by fixtures only; no real
    expired subscription was observed.
-4. **GitHub**: no git repository has been initialised and no remote exists.
-   Suggested next steps:
-   - `git init`, first commit, create `y2kloong/ly-new-api-dashboard`, push.
-   - Add `.github/workflows/release.yml` (test → package → attach VSIX to a
-     GitHub Release on tag). Not created yet.
+4. **GitHub**: local repository initialized on `main`, first commit `b2735d7`.
+   No remote yet. Next steps once credentials exist:
+   - create `y2kloong/ly-new-api-dashboard`;
+   - `git remote add origin ...`, push `main`;
+   - `git tag v0.2.0 && git push origin v0.2.0` to let the release workflow
+     build and attach the VSIX.
 5. **Publishing**:
-   - Open VSX: namespace `y2kloong`, `npx ovsx publish`.
-   - VS Code Marketplace: publisher account is still needed; the 128×128 PNG
-     icon now exists (`media/icon.png`, package.json `icon`). Confirm the
-     iconfont icon licence while signed in before publishing.
-   - Suggested `repository` URL is already in `package.json` but the repo does
-     not exist yet.
+   - Open VSX: namespace `y2kloong`, then `OVSX_PAT=... npx ovsx publish`.
+   - VS Code Marketplace: publisher account and an Azure DevOps PAT are still
+     needed; the 128×128 PNG icon now exists (`media/icon.png`, package.json
+     `icon`). Confirm the iconfont icon licence while signed in before
+     publishing.
+   - Provide tokens via environment variables (not committed, not pasted into
+     logs).
 6. **Optional polish**: reduce the ECharts bundle with code splitting; add a
    link to the site's own dashboard; more languages; admin fixture tests.
 
