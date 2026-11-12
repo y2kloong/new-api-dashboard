@@ -139,14 +139,22 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
 - Version bumped to `0.3.0`; packaging always bumps the version (see the rule in
   `AGENTS.md`).
 - `CHANGELOG.md` has a 0.3.0 section.
-- `.github/workflows/release.yml` runs tests, typechecks, packages the VSIX and
-  attaches it to a GitHub Release on a `v*` tag.
+- `.github/workflows/release.yml` runs tests, typechecks, packages the VSIX,
+  publishes to the Marketplace with OIDC trusted publishing, optionally
+  publishes to Open VSX when `OVSX_PAT` is set, and attaches the VSIX to a
+  GitHub Release on a `v*` tag.
+- Marketplace publisher `y2kloong` already exists and the signed-in Microsoft
+  account is the owner. A Trusted Publishing policy named `Release workflow`
+  was created for `y2kloong/new-api-dashboard`, workflow `release.yml`,
+  provider GitHub Actions. No Azure DevOps PAT or Azure subscription is needed.
+- Open VSX: Eclipse account created, Publisher Agreement signed, namespace
+  `y2kloong` created, access token generated (publish pending).
 - `package-lock.json` was regenerated against `https://registry.npmjs.org` and
   `.npmrc` pins the public registry, so GitHub Actions can install it.
-- Local git repository initialized (`main`), first commit `b2735d7`; no remote
-  yet because GitHub credentials are not available on this machine.
-- Remaining blockers: GitHub repo creation/push, Open VSX token, Marketplace
-  publisher account/PAT.
+- Local git repository initialized (`main`), commits up to the rename; no remote
+  yet because GitHub credentials are not available inside the agent shell.
+- Remaining blockers: create/push the GitHub repository and push the `v0.3.0`
+  tag; add the `OVSX_PAT` repository secret if Open VSX should publish from CI.
 
 ## Open items
 
@@ -166,13 +174,18 @@ Vitest pool/path bug rather than a test bug. `vitest.config.mts` now sets
    - `git tag v0.3.0 && git push origin v0.3.0` to let the release workflow
      build and attach the VSIX.
 5. **Publishing**:
-   - Open VSX: namespace `y2kloong`, then `OVSX_PAT=... npx ovsx publish`.
-   - VS Code Marketplace: publisher account and an Azure DevOps PAT are still
-     needed; the 128×128 PNG icon now exists (`media/icon.png`, package.json
-     `icon`). Confirm the iconfont icon licence while signed in before
-     publishing.
-   - Provide tokens via environment variables (not committed, not pasted into
-     logs).
+   - Open VSX: Eclipse account, Publisher Agreement and namespace `y2kloong`
+     are done. Publish with `OVSX_PAT=... npx ovsx publish
+     new-api-dashboard-0.3.0.vsix`, or add `OVSX_PAT` as a GitHub repository
+     secret for CI.
+   - VS Code Marketplace: publisher `y2kloong` exists; Trusted Publishing
+     policy `Release workflow` is configured for `y2kloong/new-api-dashboard`
+     and `.github/workflows/release.yml`. The workflow publishes with
+     `npx @vscode/vsce publish --oidc`, so no Azure DevOps PAT or Azure
+     subscription is required. Do not create an Azure DevOps organization just
+     for this; it now asks for an Azure subscription.
+   - Confirm the iconfont icon licence before the first public Marketplace
+     release.
 6. **Optional polish**: reduce the ECharts bundle with code splitting; add a
    link to the site's own dashboard; more languages; admin fixture tests.
 

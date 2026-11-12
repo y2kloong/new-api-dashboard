@@ -8,10 +8,13 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      OVSX_PAT: ${{ secrets.OVSX_PAT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,6 +36,13 @@ jobs:
 
       - name: Package VSIX
         run: npm run package
+
+      - name: Publish to VS Code Marketplace
+        run: npx @vscode/vsce publish --oidc
+
+      - name: Publish to Open VSX
+        if: ${{ env.OVSX_PAT != '' }}
+        run: npx ovsx publish new-api-dashboard-*.vsix -p "$OVSX_PAT"
 
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v2
