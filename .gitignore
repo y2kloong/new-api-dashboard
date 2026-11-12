@@ -8,3 +8,6 @@ coverage/
 *.log
 .claude/
 .cursor/
+.env
+.env.local
+.env.*.local
