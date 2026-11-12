@@ -1,0 +1,151 @@
+{
+  "name": "ly-new-api-dashboard",
+  "displayName": "NewAPI Dashboard",
+  "description": "Unofficial New API usage dashboard for VS Code and Cursor: model call analytics, quota distribution and subscription status without leaving the editor.",
+  "version": "0.2.0",
+  "publisher": "y2kloong",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/y2kloong/ly-new-api-dashboard.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "new-api",
+    "one-api",
+    "llm",
+    "usage",
+    "dashboard",
+    "quota",
+    "tokens"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "lyNewApi.openDashboard",
+        "title": "Open Dashboard",
+        "category": "NewAPI Dashboard",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "lyNewApi.refresh",
+        "title": "Refresh Data",
+        "category": "NewAPI Dashboard",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "lyNewApi.manageProfiles",
+        "title": "Manage Server Profiles",
+        "category": "NewAPI Dashboard",
+        "icon": "$(settings-gear)"
+      },
+      {
+        "command": "lyNewApi.showLogs",
+        "title": "Show Logs",
+        "category": "NewAPI Dashboard"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "lyNewApi",
+          "title": "NewAPI Dashboard",
+          "icon": {
+            "light": "media/activity-light.svg",
+            "dark": "media/activity.svg"
+          }
+        }
+      ]
+    },
+    "views": {
+      "lyNewApi": [
+        {
+          "type": "webview",
+          "id": "lyNewApi.sidebar",
+          "name": "概览"
+        }
+      ],
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "lyNewApi.explorer",
+          "name": "NewAPI Dashboard",
+          "contextualTitle": "NewAPI Dashboard",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "NewAPI Dashboard",
+      "properties": {
+        "lyNewApi.autoRefreshMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "maximum": 120,
+          "markdownDescription": "Auto refresh interval in minutes while a dashboard is visible. `0` disables auto refresh."
+        },
+        "lyNewApi.statusBar.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the subscription quota summary in the status bar."
+        },
+        "lyNewApi.language": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "zh",
+            "en"
+          ],
+          "enumDescriptions": [
+            "Follow the editor display language",
+            "中文",
+            "English"
+          ],
+          "default": "auto",
+          "description": "Dashboard language."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc -p tsconfig.extension.json --noEmit && tsc -p tsconfig.webview.json --noEmit",
+    "test": "vitest run",
+    "build": "npm run typecheck && npm run test && npm run compile",
+    "package": "vsce package --no-dependencies",
+    "vscode:prepublish": "npm run build"
+  },
+  "dependencies": {
+    "echarts": "^6.1.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/vscode": "1.85.0",
+    "@vscode/vsce": "^4.1.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.8.3",
+    "vitest": "^5.1.0"
+  }
+}
