@@ -24,10 +24,11 @@ Press `F5` in VS Code to launch an extension development host.
 
 ## Releasing
 
-The full account setup, token scopes, marketplace registration and release
-runbook live in [`docs/publishing.md`](docs/publishing.md). In short: bump the
-version, update `CHANGELOG.md`, push a `vX.Y.Z` tag, and let the Release
-workflow publish the Marketplace build via OIDC trusted publishing.
+The account and marketplace relationships are explained in
+[`docs/ecosystem.md`](docs/ecosystem.md); the step-by-step runbook is
+[`docs/publishing.md`](docs/publishing.md). In short: bump the version, update
+`CHANGELOG.md`, push a `vX.Y.Z` tag, and let the Release workflow publish the
+Marketplace build via OIDC trusted publishing.
 
 ## Where things live
 

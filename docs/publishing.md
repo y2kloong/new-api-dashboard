@@ -1,5 +1,8 @@
 # NewAPI Dashboard — 注册与发布手册
 
+> 先理解角色关系：Eclipse、Open VSX、Marketplace、GitHub 各自是什么、为什么
+> 需要互相关联，见 [`ecosystem.md`](./ecosystem.md)。本文只讲操作步骤。
+
 本文记录 `y2kloong.new-api-dashboard` 从账号注册到发布到 Open VSX 和
 VS Code Marketplace 的完整流程。命令默认在仓库根目录执行（Windows Git
 Bash / PowerShell 均可，示例以 Git Bash 为主）。
