@@ -25,7 +25,7 @@ Bash / PowerShell 均可，示例以 Git Bash 为主）。
 | Release workflow | `.github/workflows/release.yml` |
 | Trusted Publishing policy | `Release workflow` |
 | Open VSX namespace | `y2kloong` |
-| 当前已发布版本 | `0.3.0` |
+| 当前已发布版本 | `0.6.3` |
 
 扩展 ID / publisher / 包名要保持一致，否则两个市场会变成另一个扩展。
 
