@@ -10,6 +10,9 @@ design-system/**
 .github/**
 node_modules/**
 .npmrc
+.env
+.env.*
+*.log
 AGENTS.md
 GLOSSARY.md
 CONTRIBUTING.md
