@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1
+
+- Pointed the access-token hint, the README setup step and the glossary entry at
+  New API's current menu path: 安全与访问 → 访问令牌 (Security & Access →
+  Access tokens).
+
 ## 0.4.0
 
 - Added two more theme **styles** alongside the default *Glass* look:

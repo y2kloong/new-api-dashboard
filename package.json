@@ -2,7 +2,7 @@
   "name": "new-api-dashboard",
   "displayName": "NewAPI Dashboard",
   "description": "Unofficial New API usage dashboard for VS Code and Cursor: model call analytics, quota distribution and subscription status without leaving the editor.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "publisher": "y2kloong",
   "license": "MIT",
   "icon": "media/icon.png",
