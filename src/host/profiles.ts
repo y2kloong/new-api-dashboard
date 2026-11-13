@@ -6,6 +6,7 @@ import type {
   ModelChartTab,
   ProfileSummary,
   ThemeMode,
+  ThemeStyle,
   TimeGranularity,
 } from '../shared/types'
 import type { SelfUser } from './api'
@@ -31,12 +32,17 @@ export const DEFAULT_PREFERENCES: DashboardPreferences = {
   defaultDays: 1,
   defaultGranularity: 'hour',
   themeMode: 'auto',
+  themeStyle: 'glass',
 }
 
 const ALLOWED_DAYS = [1, 7, 14, 29]
 
 function isThemeMode(value: unknown): value is ThemeMode {
   return value === 'auto' || value === 'dark' || value === 'light'
+}
+
+function isThemeStyle(value: unknown): value is ThemeStyle {
+  return value === 'glass' || value === 'pixel' || value === 'shadcn'
 }
 
 function isDistributionChart(value: unknown): value is DistributionChartType {
@@ -76,6 +82,9 @@ export function loadPreferences(
     themeMode: isThemeMode(stored.themeMode)
       ? stored.themeMode
       : DEFAULT_PREFERENCES.themeMode,
+    themeStyle: isThemeStyle(stored.themeStyle)
+      ? stored.themeStyle
+      : DEFAULT_PREFERENCES.themeStyle,
   }
 }
 

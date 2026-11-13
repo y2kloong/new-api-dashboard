@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { buildDashboardViewModel } from '../core/viewModel'
+import { sanitizePreferences } from '../core/filters'
 import type { RawPerformanceSummary } from '../core/performance'
 import type { PlanRecord, SelfSubscriptionData } from '../core/subscription'
 import { resolveLocale, translate } from '../shared/i18n'
@@ -431,10 +432,10 @@ export class DashboardController implements vscode.Disposable {
   async setPreferences(
     patch: Partial<DashboardPreferences>
   ): Promise<void> {
-    this.preferences = {
-      ...this.preferences,
-      ...patch,
-    }
+    // The patch comes straight from the webview, so re-validate every field
+    // instead of spreading it in: an unknown value would otherwise be persisted
+    // and reused on the next launch.
+    this.preferences = sanitizePreferences(patch, this.preferences)
     await savePreferences(this.context, this.preferences)
     this.notify()
   }

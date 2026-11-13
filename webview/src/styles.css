@@ -49,6 +49,34 @@
   --track: rgba(15, 23, 42, 0.1);
 }
 
+/*
+ * The `glass` skin owns the frosted surface tokens. They live on a base class
+ * rather than `:root` so a different style (see pixel.css) can replace them
+ * without fighting specificity against the colour-mode blocks above.
+ */
+.style-glass {
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-bg-strong: rgba(255, 255, 255, 0.11);
+  --glass-solid: rgba(21, 30, 49, 0.96);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-shadow: 0 16px 40px rgba(2, 6, 23, 0.38);
+  --input-bg: rgba(255, 255, 255, 0.06);
+  --radius-card: 14px;
+  --radius-control: 9px;
+  --font: var(--vscode-font-family, "Segoe UI", system-ui, sans-serif);
+  --mono: var(--vscode-editor-font-family, Consolas, "Courier New", monospace);
+  --panel-blur: blur(16px) saturate(140%);
+}
+
+.style-glass.theme-light {
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-bg-strong: rgba(255, 255, 255, 0.78);
+  --glass-solid: rgba(255, 255, 255, 0.97);
+  --glass-border: rgba(15, 23, 42, 0.1);
+  --glass-shadow: 0 16px 40px rgba(15, 23, 42, 0.1);
+  --input-bg: rgba(255, 255, 255, 0.7);
+}
+
 .theme-high-contrast {
   --bg: var(--vscode-editor-background);
   --bg-deep: var(--vscode-editor-background);
@@ -161,8 +189,8 @@ button:disabled {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-card);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: var(--panel-blur);
+  -webkit-backdrop-filter: var(--panel-blur);
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -264,7 +292,8 @@ button:disabled {
   background: var(--glass-bg-strong);
 }
 
-.primary-button.full {
+.primary-button.full,
+.outline-button.full {
   width: 100%;
 }
 
@@ -299,6 +328,23 @@ select option {
   max-width: 190px;
   height: 30px;
   font-size: 12px;
+}
+
+/* Theme-style dropdown: one width for the longest label so the header does not
+   shift when switching skins. */
+.style-select {
+  height: 30px;
+  max-width: 132px;
+  padding: 0 8px;
+  font-size: 12px;
+  border-radius: var(--radius-control);
+  background: var(--glass-bg);
+}
+
+.style-select-compact {
+  height: 26px;
+  max-width: 118px;
+  font-size: 11px;
 }
 
 .chip {
@@ -805,10 +851,20 @@ select option {
   color: #fecaca;
 }
 
+.theme-light .banner.error,
+.theme-light .inline-error,
+.theme-light .side-error {
+  color: #b91c1c;
+}
+
 .banner.warning {
   border-color: rgba(245, 158, 11, 0.35);
   background: rgba(245, 158, 11, 0.08);
   color: #fde68a;
+}
+
+.theme-light .banner.warning {
+  color: #92400e;
 }
 
 .banner-text {
@@ -1500,13 +1556,104 @@ select option {
   font-size: 12px;
 }
 
-.side-big {
+.side-head .side-name {
+  flex: 1;
+  min-width: 0;
+}
+
+.side-config-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-top: 2px;
+  min-width: 0;
+}
+
+.side-url {
+  margin-top: 4px;
+}
+
+.side-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.side-metric-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.side-metric-label {
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.side-metric-value {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.side-metric-row.primary .side-metric-value {
   font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.02em;
+}
+
+.side-profile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.side-profile-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: 9px;
+  background: rgba(148, 163, 184, 0.06);
+}
+
+.side-profile-info {
+  min-width: 0;
+}
+
+.side-profile-name {
+  font-size: 12px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.side-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.side-theme-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
 }
 
 .side-error {

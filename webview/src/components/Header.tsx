@@ -10,6 +10,7 @@ import {
   SettingsIcon,
   SunIcon,
 } from './Icons'
+import { StyleSelect } from './ThemeStyleSwitch'
 
 interface HeaderProps {
   state: DashboardViewModel
@@ -109,6 +110,8 @@ export function Header({ state }: HeaderProps) {
         >
           <ThemeIcon />
         </button>
+
+        <StyleSelect locale={state.locale} style={state.themeStyle} />
 
         <button
           type='button'

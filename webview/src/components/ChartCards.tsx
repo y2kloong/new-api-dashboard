@@ -40,9 +40,10 @@ export function QuotaChartCard({ state }: { state: DashboardViewModel }) {
         chartType,
         state.currency,
         state.locale,
-        state.themeKind
+        state.themeKind,
+        state.themeStyle
       ),
-    [chart, chartType, state.currency, state.locale, state.themeKind]
+    [chart, chartType, state.currency, state.locale, state.themeKind, state.themeStyle]
   )
 
   const chooseChartType = (nextType: DistributionChartType) => {
@@ -90,7 +91,11 @@ export function QuotaChartCard({ state }: { state: DashboardViewModel }) {
         {isEmpty ? (
           <ChartEmpty label={t('chart.empty')} />
         ) : (
-          <Chart key={state.themeKind} option={option} height={340} />
+          <Chart
+            key={`${state.themeKind}-${state.themeStyle}`}
+            option={option}
+            height={340}
+          />
         )}
       </div>
     </section>
@@ -118,9 +123,18 @@ export function ModelChartCard({ state }: { state: DashboardViewModel }) {
         },
         tab,
         state.locale,
-        state.themeKind
+        state.themeKind,
+        state.themeStyle
       ),
-    [chart, state.charts.ranking, state.charts.proportion, tab, state.locale, state.themeKind]
+    [
+      chart,
+      state.charts.ranking,
+      state.charts.proportion,
+      tab,
+      state.locale,
+      state.themeKind,
+      state.themeStyle,
+    ]
   )
 
   const chooseTab = (nextTab: ModelChartTab) => {
@@ -168,7 +182,11 @@ export function ModelChartCard({ state }: { state: DashboardViewModel }) {
         {isEmpty ? (
           <ChartEmpty label={t('chart.empty')} />
         ) : (
-          <Chart key={`${state.themeKind}-${tab}`} option={option} height={height} />
+          <Chart
+            key={`${state.themeKind}-${state.themeStyle}-${tab}`}
+            option={option}
+            height={height}
+          />
         )}
       </div>
     </section>

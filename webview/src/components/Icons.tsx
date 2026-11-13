@@ -258,3 +258,42 @@ export function WalletIcon(props: IconProps) {
     </svg>
   )
 }
+
+/**
+ * 8-bit style glyphs used by the theme-style switcher. They are drawn with
+ * whole-number rectangles (no stroke, crispEdges) so they stay sharp at 14–18px.
+ */
+const pixelProps = {
+  width: 16,
+  height: 16,
+  viewBox: '0 0 8 8',
+  fill: 'currentColor',
+  shapeRendering: 'crispEdges' as const,
+}
+
+export function PixelGlassIcon(props: IconProps) {
+  return (
+    <svg {...pixelProps} {...props}>
+      <path d="M1 1h6v1H1zM1 5h6v1H1zM1 1h1v6H1zM6 1h1v6H6zM2 2h4v3H2z" fillOpacity="0.35" />
+      <path d="M2 3h2v1H2zM3 6h2v1H3z" />
+    </svg>
+  )
+}
+
+export function PixelGridIcon(props: IconProps) {
+  return (
+    <svg {...pixelProps} {...props}>
+      <path d="M1 1h2v2H1zM4 1h2v2H4zM7 1h1v2H7zM1 4h2v2H1zM4 4h2v2H4zM7 4h1v2H7zM1 7h2v1H1zM4 7h2v1H4zM7 7h1v1H7z" />
+    </svg>
+  )
+}
+
+/** Flat rounded surfaces: the shadcn/ui skin. */
+export function MinimalIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <rect x="3" y="4" width="18" height="6.5" rx="2" />
+      <rect x="3" y="13.5" width="18" height="6.5" rx="2" />
+    </svg>
+  )
+}

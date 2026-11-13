@@ -7,6 +7,12 @@ export type Locale = 'zh' | 'en'
 export type ThemeKind = 'dark' | 'light' | 'high-contrast'
 /** `auto` follows the editor colour theme; `dark` / `light` pin the dashboard. */
 export type ThemeMode = 'auto' | 'dark' | 'light'
+/**
+ * Visual skin on top of the colour mode. `glass` is the default frosted look,
+ * `pixel` the 8-bit skin and `shadcn` a flat neutral (shadcn/ui) look; all three
+ * swap tokens and textures only — layout and content stay identical.
+ */
+export type ThemeStyle = 'glass' | 'pixel' | 'shadcn'
 export type TimeGranularity = 'hour' | 'day' | 'week'
 export type ModelChartTab = 'trend' | 'proportion' | 'top'
 export type DistributionChartType = 'bar' | 'area'
@@ -58,6 +64,7 @@ export interface DashboardPreferences {
   defaultDays: number
   defaultGranularity: TimeGranularity
   themeMode: ThemeMode
+  themeStyle: ThemeStyle
 }
 
 export type StatCardKey =
@@ -186,6 +193,7 @@ export interface DashboardViewModel {
   locale: Locale
   strings: Record<string, string>
   themeKind: ThemeKind
+  themeStyle: ThemeStyle
   profile: ProfileSummary | null
   profiles: ProfileSummary[]
   preferences: DashboardPreferences

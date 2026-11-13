@@ -17,6 +17,7 @@ import {
   SunIcon,
   TrashIcon,
 } from './Icons'
+import { StyleOptionGroup } from './ThemeStyleSwitch'
 
 interface SetupViewProps {
   state: DashboardViewModel
@@ -329,6 +330,10 @@ export function SetupView({ state, testResult }: SetupViewProps) {
               })}
             </div>
             <p className='field-hint'>{t('theme.hint')}</p>
+
+            <h3 className='appearance-subheading'>{t('style.label')}</h3>
+            <StyleOptionGroup locale={state.locale} style={state.themeStyle} />
+            <p className='field-hint'>{t('style.hint')}</p>
           </section>
 
           <div className='note-box'>

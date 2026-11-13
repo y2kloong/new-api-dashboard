@@ -32,6 +32,11 @@ const webviewBuildOptions = {
   target: 'chrome100',
   jsx: 'automatic',
   jsxImportSource: 'react',
+  // The pixel skin ships a bundled OFL webfont; emit it as a file next to
+  // main.css instead of inlining 17 KB of base64 into every stylesheet load.
+  loader: {
+    '.woff2': 'file',
+  },
   define: {
     'process.env.NODE_ENV': JSON.stringify(
       isProductionBuild ? 'production' : 'development'

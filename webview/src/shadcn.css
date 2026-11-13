@@ -1,0 +1,461 @@
+/*
+ * shadcn/ui skin (`themeStyle: 'shadcn'`).
+ *
+ * Third skin on the same DOM: flat neutral surfaces, hairline borders, 12px card
+ * radius, 8px control radius, one soft shadow step and no texture, blur or
+ * gradient. The palette follows shadcn's zinc theme; `--sh-primary` is the
+ * high-contrast neutral used by shadcn's default button, and the green accent is
+ * kept only where a colour carries meaning (success, admin, quota usage).
+ *
+ * Everything here is a token or component override, so the markup, the chart
+ * data and the keyboard behaviour are identical to the other two skins.
+ */
+
+.style-shadcn {
+  --sh-bg: #09090b;
+  --sh-card: #0d0d10;
+  --sh-muted: #18181b;
+  --sh-border: #27272a;
+  --sh-fg: #fafafa;
+  --sh-muted-fg: #a1a1aa;
+  --sh-faint: #8f8f98;
+  --sh-primary: #fafafa;
+  --sh-primary-fg: #18181b;
+  --sh-ring: #a1a1aa;
+  --sh-ring-soft: rgba(161, 161, 170, 0.35);
+  --sh-backdrop: rgba(9, 9, 11, 0.62);
+
+  --bg: var(--sh-bg);
+  --bg-deep: var(--sh-bg);
+  --text: var(--sh-fg);
+  --muted: var(--sh-muted-fg);
+  --faint: var(--sh-faint);
+  --glass-bg: var(--sh-card);
+  --glass-bg-strong: var(--sh-muted);
+  --glass-solid: var(--sh-card);
+  --glass-border: var(--sh-border);
+  --glass-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.55);
+  --grid-line: var(--sh-border);
+  --input-bg: transparent;
+  --track: var(--sh-muted);
+  --focus: var(--sh-ring);
+  --panel-blur: none;
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --accent: #22c55e;
+  --accent-ink: #052e16;
+
+  --font: var(--vscode-font-family, "Segoe UI", system-ui, sans-serif);
+  --mono: var(--vscode-editor-font-family, Consolas, "Courier New", monospace);
+}
+
+.style-shadcn.theme-light {
+  --sh-bg: #ffffff;
+  --sh-card: #ffffff;
+  --sh-muted: #f4f4f5;
+  --sh-border: #e4e4e7;
+  --sh-fg: #09090b;
+  --sh-muted-fg: #52525b;
+  --sh-faint: #71717a;
+  --sh-primary: #18181b;
+  --sh-primary-fg: #fafafa;
+  --sh-ring: #18181b;
+  --sh-ring-soft: rgba(9, 9, 11, 0.15);
+  --sh-backdrop: rgba(9, 9, 11, 0.45);
+
+  --glass-shadow: 0 1px 2px 0 rgba(9, 9, 11, 0.06);
+  --input-bg: #ffffff;
+  --accent: #16a34a;
+  --accent-ink: #ffffff;
+}
+
+.style-shadcn.theme-high-contrast {
+  --sh-bg: var(--vscode-editor-background);
+  --sh-card: var(--vscode-editor-background);
+  --sh-muted: var(--vscode-editor-background);
+  --sh-border: var(--vscode-contrastBorder, #ffffff);
+  --sh-fg: var(--vscode-editor-foreground);
+  --sh-muted-fg: var(--vscode-descriptionForeground);
+  --sh-faint: var(--vscode-descriptionForeground);
+  --sh-primary: var(--vscode-button-background);
+  --sh-primary-fg: var(--vscode-button-foreground);
+  --sh-ring: var(--vscode-contrastBorder, #ffffff);
+  --sh-ring-soft: transparent;
+  --glass-shadow: none;
+  --glass-bg: var(--vscode-editor-background);
+  --glass-bg-strong: var(--vscode-editor-background);
+  --input-bg: var(--vscode-input-background);
+  --track: var(--vscode-editor-background);
+}
+
+/* ---------- canvas ---------- */
+
+.style-shadcn.app,
+.style-shadcn.app.theme-light {
+  background: var(--sh-bg);
+}
+
+.style-shadcn .aurora,
+.style-shadcn .scanlines {
+  display: none;
+}
+
+/* ---------- surfaces ---------- */
+
+.style-shadcn .glass {
+  background: var(--sh-card);
+  border: 1px solid var(--sh-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.style-shadcn.theme-high-contrast .glass {
+  border-color: var(--sh-border);
+}
+
+.style-shadcn .topbar {
+  background: var(--sh-card);
+}
+
+.style-shadcn .panel-header,
+.style-shadcn .analytics-head {
+  border-bottom-color: var(--sh-border);
+}
+
+.style-shadcn .brand-mark {
+  border-radius: 8px;
+  border: 1px solid var(--sh-border);
+  background: var(--sh-muted);
+}
+
+.style-shadcn .panel-icon,
+.style-shadcn .stat-icon {
+  border-radius: 6px;
+  background: var(--sh-muted);
+}
+
+/* ---------- controls ---------- */
+
+.style-shadcn .icon-button,
+.style-shadcn .outline-button,
+.style-shadcn .primary-button,
+.style-shadcn .ghost-button,
+.style-shadcn .preset-button,
+.style-shadcn .theme-option,
+.style-shadcn .segmented,
+.style-shadcn .segmented-item,
+.style-shadcn .style-select,
+.style-shadcn .glass-select {
+  border-radius: var(--radius-control);
+}
+
+.style-shadcn .icon-button:hover {
+  background: var(--sh-muted);
+  border-color: var(--sh-border);
+  color: var(--sh-fg);
+}
+
+.style-shadcn .outline-button {
+  background: transparent;
+  border: 1px solid var(--sh-border);
+  color: var(--sh-fg);
+  font-weight: 500;
+}
+
+.style-shadcn .outline-button:hover {
+  background: var(--sh-muted);
+}
+
+.style-shadcn .primary-button {
+  background: var(--sh-primary);
+  border: 1px solid var(--sh-primary);
+  color: var(--sh-primary-fg);
+  font-weight: 500;
+}
+
+.style-shadcn .primary-button:hover {
+  opacity: 0.9;
+  filter: none;
+}
+
+.style-shadcn .ghost-button {
+  color: var(--sh-muted-fg);
+  font-weight: 500;
+}
+
+.style-shadcn .ghost-button:hover {
+  background: var(--sh-muted);
+  color: var(--sh-fg);
+}
+
+.style-shadcn input,
+.style-shadcn select {
+  border: 1px solid var(--sh-border);
+  background: var(--input-bg);
+  color: var(--sh-fg);
+}
+
+.style-shadcn input::placeholder {
+  color: var(--sh-faint);
+}
+
+.style-shadcn input:focus,
+.style-shadcn select:focus {
+  border-color: var(--sh-ring);
+  box-shadow: 0 0 0 2px var(--sh-ring-soft);
+}
+
+.style-shadcn .chip {
+  border-radius: 6px;
+  background: var(--sh-muted);
+  border-color: var(--sh-border);
+}
+
+.style-shadcn .chip.current::before,
+.style-shadcn .dot {
+  border-radius: 999px;
+}
+
+.style-shadcn .badge {
+  border-radius: 999px;
+}
+
+.style-shadcn .model-chip {
+  border-radius: 6px;
+  background: var(--sh-muted);
+}
+
+.style-shadcn .segmented {
+  border: 1px solid var(--sh-border);
+  background: var(--sh-muted);
+  padding: 3px;
+}
+
+.style-shadcn .segmented-item {
+  border: 1px solid transparent;
+  color: var(--sh-muted-fg);
+}
+
+.style-shadcn .segmented-item:hover {
+  color: var(--sh-fg);
+}
+
+.style-shadcn .segmented-item.active {
+  background: var(--sh-bg);
+  border-color: var(--sh-border);
+  color: var(--sh-fg);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.24);
+}
+
+.style-shadcn.theme-light .segmented-item.active {
+  box-shadow: 0 1px 2px 0 rgba(9, 9, 11, 0.1);
+}
+
+/* ---------- typography ---------- */
+
+.style-shadcn .stat-label,
+.style-shadcn .side-label,
+.style-shadcn .filter-label {
+  letter-spacing: 0.02em;
+}
+
+.style-shadcn .panel-title,
+.style-shadcn .analytics-title,
+.style-shadcn .side-heading,
+.style-shadcn .modal-head h2,
+.style-shadcn .setup-title {
+  letter-spacing: -0.01em;
+}
+
+.style-shadcn .brand-title,
+.style-shadcn .panel-title,
+.style-shadcn .analytics-title,
+.style-shadcn .side-heading,
+.style-shadcn .modal-head h2,
+.style-shadcn .setup-title {
+  font-weight: 600;
+}
+
+/* ---------- data ---------- */
+
+.style-shadcn .progress {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--sh-muted);
+}
+
+.style-shadcn .progress > span {
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.style-shadcn .skeleton,
+.style-shadcn .skeleton-line {
+  background: var(--sh-muted);
+}
+
+.style-shadcn .skeleton-line {
+  border-radius: 6px;
+  animation: shadcn-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes shadcn-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.style-shadcn .loading-bar {
+  height: 2px;
+  background: var(--accent);
+  background-image: none;
+  border-radius: 999px;
+  animation: shadcn-sweep 1.2s ease-in-out infinite;
+}
+
+@keyframes shadcn-sweep {
+  0% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+
+/* ---------- rows, banners, cards ---------- */
+
+.style-shadcn .sub-card,
+.style-shadcn .profile-row,
+.style-shadcn .note-box,
+.style-shadcn .banner,
+.style-shadcn .inline-error,
+.style-shadcn .inline-ok,
+.style-shadcn .side-error {
+  border-radius: 10px;
+  border: 1px solid var(--sh-border);
+}
+
+.style-shadcn .sub-card,
+.style-shadcn .profile-row {
+  background: transparent;
+}
+
+.style-shadcn .profile-row.current {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.06);
+}
+
+.style-shadcn .note-box {
+  background: var(--sh-muted);
+  border-style: solid;
+}
+
+.style-shadcn .banner.error,
+.style-shadcn .inline-error,
+.style-shadcn .side-error {
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--sh-fg);
+}
+
+.style-shadcn .banner.warning {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--sh-fg);
+}
+
+.style-shadcn .inline-ok {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--sh-fg);
+}
+
+.style-shadcn .expired-block {
+  border-top-color: var(--sh-border);
+}
+
+/* ---------- appearance pickers ---------- */
+
+.style-shadcn .theme-option {
+  border: 1px solid var(--sh-border);
+  background: transparent;
+  color: var(--sh-muted-fg);
+}
+
+.style-shadcn .theme-option:hover {
+  background: var(--sh-muted);
+  color: var(--sh-fg);
+  border-color: var(--sh-border);
+}
+
+.style-shadcn .theme-option.active {
+  background: var(--sh-primary);
+  border-color: var(--sh-primary);
+  color: var(--sh-primary-fg);
+}
+
+.style-shadcn.theme-high-contrast .theme-option.active {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border-color: var(--vscode-contrastBorder, #ffffff);
+}
+
+/* ---------- overlays ---------- */
+
+.style-shadcn .modal-backdrop {
+  background: var(--sh-backdrop);
+  backdrop-filter: none;
+}
+
+.style-shadcn .modal {
+  background: var(--sh-card);
+  border: 1px solid var(--sh-border);
+  border-radius: 12px;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.45);
+}
+
+.style-shadcn .modal-head,
+.style-shadcn .modal-foot {
+  border-color: var(--sh-border);
+}
+
+.style-shadcn .toast {
+  background: var(--sh-card);
+  border: 1px solid var(--sh-border);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.45);
+}
+
+.style-shadcn .toast.success {
+  color: var(--sh-fg);
+  border-color: rgba(34, 197, 94, 0.45);
+}
+
+.style-shadcn .toast.error {
+  color: var(--sh-fg);
+  border-color: rgba(239, 68, 68, 0.45);
+}
+
+.style-shadcn .spinner {
+  border-color: var(--sh-muted);
+  border-top-color: var(--accent);
+}
+
+.style-shadcn ::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--sh-border);
+  background-clip: content-box;
+}
+
+.style-shadcn .chart-empty {
+  color: var(--sh-muted-fg);
+}

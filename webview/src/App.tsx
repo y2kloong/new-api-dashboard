@@ -61,8 +61,13 @@ export function App({ mode }: AppProps) {
   }
 
   return (
-    <div className={`app theme-${state.themeKind}`} data-mode={mode}>
+    <div
+      className={`app theme-${state.themeKind} style-${state.themeStyle}`}
+      data-mode={mode}
+      data-theme-style={state.themeStyle}
+    >
       <div className='aurora' aria-hidden='true' />
+      <div className='scanlines' aria-hidden='true' />
       <div className='app-inner'>
         {mode === 'sidebar' ? (
           <SidebarView state={state} />

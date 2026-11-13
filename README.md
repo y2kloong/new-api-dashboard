@@ -51,6 +51,7 @@
 - **四个入口**：活动栏图标、资源管理器侧边栏概览、编辑器标签页全宽看板、状态栏摘要（点击打开看板）。
 - **金额显示**：跟随服务端 `/api/status` 的 `quota_display_type`，支持 USD、CNY、Tokens 和自定义货币。
 - **主题切换**：跟随编辑器 / 深色 / 浅色三种模式；编辑器和看板使用高对比主题时始终保持无障碍配色。
+- **主题风格**：内置「玻璃拟态」「像素风」（Pixel Art）与「shadcn/ui」三套皮肤，看板头部用下拉框切换。皮肤只改变视觉语言——配色、圆角、边框、阴影、纹理与图表画法，布局、卡片和操作方式完全不变；深色 / 浅色 / 高对比编辑器下都可用。
 - **统一的配置页**：站点配置与外观设置集中在同一处，不再有重复入口。
 - **中英双语**：跟随编辑器语言，也可以在设置中手动指定。
 - **自动刷新与离线兜底**：看板可见时按间隔自动刷新；刷新失败时保留最近一次成功快照，并显示「数据可能已过期」。
@@ -193,6 +194,7 @@ MIT。见 [LICENSE](https://github.com/y2kloong/new-api-dashboard/blob/main/LICE
 - **Four entry points**: activity bar view, Explorer side bar overview, full-width editor tab, and a status bar summary that opens the dashboard.
 - **Currency display**: follows `quota_display_type` from `/api/status` and supports USD, CNY, tokens and custom currencies.
 - **Theme switch**: follow the editor, dark or light. High-contrast editor themes always keep their accessible palette.
+- **Theme style**: three skins — *Glass*, *Pixel Art* and *shadcn/ui* — picked from a dropdown in the dashboard header. A skin only swaps the visual language (palette, radii, borders, shadows, texture and chart rendering); layout, cards and controls stay the same. All three work in dark, light and high-contrast editors.
 - **One configuration page**: profiles and appearance in a single place, with no duplicate entry points.
 - **English / Chinese**: follows the editor language and can also be set explicitly.
 - **Auto refresh and offline fallback**: refreshes on an interval while a dashboard is visible; a failed refresh keeps the last successful snapshot and marks the data as possibly stale.

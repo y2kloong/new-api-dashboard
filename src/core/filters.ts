@@ -3,6 +3,7 @@ import type {
   DashboardFilters,
   DashboardPreferences,
   ThemeMode,
+  ThemeStyle,
   TimeGranularity,
 } from '../shared/types'
 
@@ -18,6 +19,10 @@ function isThemeMode(value: unknown): value is ThemeMode {
   return value === 'auto' || value === 'dark' || value === 'light'
 }
 
+export function isThemeStyle(value: unknown): value is ThemeStyle {
+  return value === 'glass' || value === 'pixel' || value === 'shadcn'
+}
+
 export function buildDefaultPreferences(): DashboardPreferences {
   return {
     distributionChart: 'bar',
@@ -25,6 +30,7 @@ export function buildDefaultPreferences(): DashboardPreferences {
     defaultDays: 1,
     defaultGranularity: 'hour',
     themeMode: 'auto',
+    themeStyle: 'glass',
   }
 }
 
@@ -110,6 +116,9 @@ export function sanitizePreferences(
     themeMode: isThemeMode(input.themeMode)
       ? input.themeMode
       : fallback.themeMode,
+    themeStyle: isThemeStyle(input.themeStyle)
+      ? input.themeStyle
+      : fallback.themeStyle,
   }
   return next
 }

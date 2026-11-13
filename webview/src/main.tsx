@@ -1,6 +1,8 @@
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
 import './styles.css'
+import './pixel.css'
+import './shadcn.css'
 
 const rootElement = document.getElementById('root')
 if (rootElement) {

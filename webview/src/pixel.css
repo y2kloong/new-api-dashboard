@@ -1,0 +1,705 @@
+/*
+ * Pixel Art skin (`themeStyle: 'pixel'`).
+ *
+ * This file only restyles the existing DOM: same markup, same layout, same
+ * information. It swaps the design tokens (palette, radii, fonts, shadows) and
+ * adds blocky borders, a checkerboard mat and sprite-like details.
+ *
+ * Rules of the skin:
+ * - no border radius, no blur, no soft shadow: surfaces are flat with a hard
+ *   drop shadow that reads as a 4px "pixel" edge;
+ * - a limited NES-ish palette, series colours matching chartOptions.ts;
+ * - body copy is a readable UI font; only headings/controls use the pixel face,
+ *   because Press Start 2P at 11px across the whole dashboard is unreadable
+ *   (contrast and legibility beat the gimmick, per the UX checklist).
+ *
+ * The Press Start 2P woff2 is fetched from Google Fonts and inlined into the
+ * stylesheet at build time (see esbuild.mjs), so there is no network request at
+ * runtime and the CSP never needs to allow an external font origin.
+ */
+
+@font-face {
+  font-family: "Press Start 2P";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/press-start-2p.woff2") format("woff2");
+}
+
+/* ---------- tokens ---------- */
+
+.style-pixel {
+  --pixel-ink: #2b2b3c;
+  --pixel-shadow: #14141f;
+
+  --bg: #232338;
+  --bg-deep: #1c1c2e;
+  --text: #f7f7e8;
+  --muted: #b9b3d4;
+  --faint: rgba(185, 179, 212, 0.8);
+
+  --accent: #7dff4d;
+  --accent-ink: #0b1606;
+  --danger: #ff5454;
+  --warning: #ffcf3d;
+  --info: #5cc8ff;
+  --violet: #c77dff;
+  --teal: #4de8c2;
+  --rose: #ff7d9c;
+
+  --glass-bg: #2f2f4a;
+  --glass-bg-strong: #3a3a5c;
+  --glass-solid: #2f2f4a;
+  --glass-border: var(--pixel-ink);
+  --glass-shadow: 4px 4px 0 0 var(--pixel-shadow);
+  --grid-line: rgba(185, 179, 212, 0.25);
+  --input-bg: #1c1c2e;
+  --focus: #ffcf3d;
+  --track: #1c1c2e;
+  --panel-blur: none;
+
+  --radius-card: 0px;
+  --radius-control: 0px;
+
+  --font: var(--vscode-font-family, "Segoe UI", system-ui, sans-serif);
+  --mono: var(--vscode-editor-font-family, "Consolas", "Courier New", monospace);
+  --pixel-font: "Press Start 2P", var(--mono);
+}
+
+/* Light pixel palette: dusty handheld-console tones rather than pure white. */
+.style-pixel.theme-light {
+  --pixel-ink: #2a2a3d;
+  --pixel-shadow: #b7b1a0;
+
+  --bg: #ded8c4;
+  --bg-deep: #d2cbb5;
+  --text: #1d1d2b;
+  --muted: #4b4a5f;
+  --faint: rgba(75, 74, 95, 0.85);
+
+  --accent: #167d3a;
+  --accent-ink: #f4ffe9;
+  --danger: #c2262f;
+  --warning: #9a6a00;
+  --info: #1263a8;
+  --violet: #6b3fa0;
+  --teal: #0e7a6b;
+  --rose: #b02a54;
+
+  --glass-bg: #f2eee0;
+  --glass-bg-strong: #fffaf0;
+  --glass-solid: #f2eee0;
+  --grid-line: rgba(42, 42, 61, 0.22);
+  --input-bg: #fffaf0;
+  --track: #d2cbb5;
+}
+
+/* High-contrast editors keep their accessible palette; the skin only hardens
+   the edges and drops the blur. */
+.style-pixel.theme-high-contrast {
+  --pixel-ink: var(--vscode-contrastBorder, #ffffff);
+  --pixel-shadow: var(--vscode-contrastBorder, #ffffff);
+  --glass-shadow: none;
+  --glass-bg: var(--vscode-editor-background);
+  --glass-bg-strong: var(--vscode-editor-background);
+  --input-bg: var(--vscode-input-background);
+  --track: var(--vscode-editor-background);
+  --panel-blur: none;
+}
+
+/* ---------- canvas ---------- */
+
+.style-pixel.app,
+.style-pixel.app.theme-light {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(90deg, rgba(20, 20, 31, 0.35) 2px, transparent 2px),
+    linear-gradient(rgba(20, 20, 31, 0.35) 2px, transparent 2px);
+  background-size: 16px 16px;
+  background-position: 0 0;
+}
+
+.style-pixel.theme-light.app {
+  background-image:
+    linear-gradient(90deg, rgba(42, 42, 61, 0.08) 2px, transparent 2px),
+    linear-gradient(rgba(42, 42, 61, 0.08) 2px, transparent 2px);
+}
+
+.style-pixel.theme-high-contrast.app {
+  background-image: none;
+}
+
+.style-pixel .aurora {
+  display: none;
+}
+
+/* CRT scanlines: a passive overlay, never intercepts input. */
+.scanlines {
+  display: none;
+}
+
+.style-pixel .scanlines {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.14) 0,
+    rgba(0, 0, 0, 0.14) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.style-pixel.theme-high-contrast .scanlines {
+  display: none;
+}
+
+/* ---------- surfaces ---------- */
+
+.style-pixel .glass {
+  background: var(--glass-bg);
+  border: 2px solid var(--pixel-ink);
+  border-radius: 0;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.style-pixel .panel-header,
+.style-pixel .analytics-head {
+  border-bottom: 2px dashed var(--pixel-ink);
+}
+
+.style-pixel .panel-icon,
+.style-pixel .stat-icon {
+  border: 2px solid var(--pixel-ink);
+  border-radius: 0;
+}
+
+/* ---------- typography ---------- */
+
+.style-pixel .brand-title,
+.style-pixel .panel-title,
+.style-pixel .analytics-title,
+.style-pixel .side-heading,
+.style-pixel .setup-title,
+.style-pixel .modal-head h2 {
+  font-family: var(--pixel-font);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+
+.style-pixel .brand-title {
+  font-size: 12px;
+  text-shadow: 2px 2px 0 var(--pixel-shadow);
+}
+
+.style-pixel.theme-high-contrast .brand-title {
+  text-shadow: none;
+}
+
+.style-pixel .panel-title,
+.style-pixel .analytics-title,
+.style-pixel .side-heading,
+.style-pixel .modal-head h2 {
+  font-size: 11px;
+}
+
+.style-pixel .setup-title {
+  font-size: 14px;
+  text-shadow: 2px 2px 0 var(--pixel-shadow);
+}
+
+.style-pixel.theme-high-contrast .setup-title {
+  text-shadow: none;
+}
+
+.style-pixel .stat-label,
+.style-pixel .side-label,
+.style-pixel .field label,
+.style-pixel .filter-label,
+.style-pixel .sub-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.style-pixel .stat-value,
+.style-pixel .side-metric-value,
+.style-pixel .sub-quota .mono,
+.style-pixel .updated {
+  font-family: var(--pixel-font);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.style-pixel .stat-value {
+  font-size: clamp(13px, 1.25vw, 17px);
+  line-height: 1.5;
+}
+
+.style-pixel .side-metric-value {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.style-pixel .side-metric-row.primary .side-metric-value {
+  font-size: 16px;
+}
+
+/* ---------- controls ---------- */
+
+.style-pixel .icon-button,
+.style-pixel .outline-button,
+.style-pixel .primary-button,
+.style-pixel .ghost-button,
+.style-pixel .theme-option,
+.style-pixel .segmented,
+.style-pixel .segmented-item,
+.style-pixel .preset-button,
+.style-pixel .glass-select {
+  border-radius: 0;
+  transition: none;
+}
+
+.style-pixel .icon-button {
+  border: 2px solid transparent;
+  box-shadow: none;
+}
+
+.style-pixel .icon-button:hover {
+  border-color: var(--pixel-ink);
+  background: var(--glass-bg-strong);
+  box-shadow: 2px 2px 0 0 var(--pixel-shadow);
+  transform: translate(-1px, -1px);
+}
+
+.style-pixel .icon-button:active {
+  box-shadow: none;
+  transform: translate(1px, 1px);
+}
+
+.style-pixel .outline-button,
+.style-pixel .primary-button,
+.style-pixel .ghost-button {
+  height: 30px;
+  border: 2px solid var(--pixel-ink);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 3px 3px 0 0 var(--pixel-shadow);
+}
+
+.style-pixel .outline-button {
+  background: var(--glass-bg-strong);
+}
+
+.style-pixel .outline-button:hover {
+  background: var(--background-modifier-hover, var(--glass-bg-strong));
+  filter: brightness(1.12);
+}
+
+.style-pixel .primary-button {
+  background: var(--accent);
+  border-color: var(--pixel-ink);
+  color: var(--accent-ink);
+}
+
+.style-pixel .primary-button:hover {
+  filter: brightness(1.1);
+}
+
+.style-pixel .ghost-button {
+  border-color: transparent;
+  box-shadow: none;
+  font-family: var(--font);
+  font-size: 11px;
+  height: 26px;
+  color: var(--muted);
+}
+
+.style-pixel .ghost-button:hover {
+  border-color: var(--pixel-ink);
+  color: var(--text);
+  background: var(--glass-bg-strong);
+}
+
+.style-pixel .outline-button:active,
+.style-pixel .primary-button:active {
+  box-shadow: none;
+  transform: translate(2px, 2px);
+}
+
+.style-pixel button:disabled {
+  box-shadow: none;
+}
+
+.style-pixel input,
+.style-pixel select {
+  border-radius: 0;
+  border: 2px solid var(--pixel-ink);
+  background: var(--input-bg);
+  box-shadow: inset 2px 2px 0 0 rgba(0, 0, 0, 0.35);
+}
+
+.style-pixel.theme-light input,
+.style-pixel.theme-light select {
+  box-shadow: inset 2px 2px 0 0 rgba(42, 42, 61, 0.12);
+}
+
+.style-pixel input:focus,
+.style-pixel select:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 2px var(--focus);
+}
+
+.style-pixel .glass-select {
+  height: 28px;
+  font-size: 11px;
+}
+
+/*
+ * Small chips stay in the UI font: the pixel face has no CJK glyphs, so a 8–9px
+ * Press Start 2P label would fall back to a tiny system glyph. The hard border
+ * and square corners carry the 8-bit look instead.
+ */
+.style-pixel .chip,
+.style-pixel .badge,
+.style-pixel .pill,
+.style-pixel .model-chip {
+  border-radius: 0;
+  border: 2px solid var(--pixel-ink);
+  font-size: 11px;
+  height: auto;
+  min-height: 22px;
+  padding: 2px 8px;
+  line-height: 1.4;
+}
+
+.style-pixel .chip.current::before,
+.style-pixel .dot {
+  border-radius: 0;
+  width: 6px;
+  height: 6px;
+}
+
+.style-pixel .badge {
+  border-color: transparent;
+}
+
+.style-pixel .pill {
+  border-color: transparent;
+  font-size: 8px;
+}
+
+/* ---------- navigation ---------- */
+
+.style-pixel .topbar {
+  background: var(--glass-bg-strong);
+  border: 2px solid var(--pixel-ink);
+  border-bottom-width: 4px;
+}
+
+.style-pixel .brand-mark {
+  border-radius: 0;
+  border: 2px solid var(--pixel-ink);
+  background: var(--bg-deep);
+  box-shadow: inset 0 0 0 2px var(--bg-deep);
+}
+
+.style-pixel .brand-sub,
+.style-pixel .analytics-summary {
+  font-family: var(--mono);
+}
+
+/* ---------- stats ---------- */
+
+.style-pixel .stat-card {
+  box-shadow: 4px 4px 0 0 var(--pixel-shadow);
+}
+
+.style-pixel .stat-icon,
+.style-pixel .panel-icon {
+  box-shadow: 2px 2px 0 0 var(--pixel-shadow);
+}
+
+.style-pixel .skeleton-line {
+  border-radius: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--track) 0,
+    var(--track) 8px,
+    var(--glass-bg-strong) 8px,
+    var(--glass-bg-strong) 16px
+  );
+  animation: pixel-step 1s steps(4) infinite;
+}
+
+@keyframes pixel-step {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 16px 0;
+  }
+}
+
+/* ---------- charts ---------- */
+
+.style-pixel .segmented {
+  border: 2px solid var(--pixel-ink);
+  background: var(--input-bg);
+  padding: 2px;
+}
+
+.style-pixel .segmented-item {
+  font-size: 11px;
+  height: 26px;
+  border-width: 2px;
+  border-color: transparent;
+}
+
+.style-pixel .segmented-item.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--pixel-ink);
+  box-shadow: 2px 2px 0 0 var(--pixel-shadow);
+}
+
+.style-pixel.theme-high-contrast .segmented-item.active {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.style-pixel .chart-host canvas,
+.style-pixel .chart-empty {
+  image-rendering: pixelated;
+}
+
+.style-pixel .chart-empty {
+  font-family: var(--pixel-font);
+  font-size: 9px;
+}
+
+/* ---------- banners, subscription, performance ---------- */
+
+.style-pixel .banner {
+  border: 2px solid var(--pixel-ink);
+  border-left-width: 8px;
+  border-radius: 0;
+}
+
+.style-pixel .banner.error {
+  border-color: var(--pixel-ink);
+  border-left-color: var(--danger);
+  color: var(--text);
+  background: rgba(255, 84, 84, 0.16);
+}
+
+.style-pixel .banner.warning {
+  border-color: var(--pixel-ink);
+  border-left-color: var(--warning);
+  color: var(--text);
+  background: rgba(255, 207, 61, 0.14);
+}
+
+.style-pixel .sub-card,
+.style-pixel .profile-row,
+.style-pixel .side-profile-item,
+.style-pixel .note-box,
+.style-pixel .inline-error,
+.style-pixel .inline-ok {
+  border-radius: 0;
+  border: 2px solid var(--pixel-ink);
+  background: var(--glass-bg-strong);
+}
+
+.style-pixel .note-box {
+  border-style: dashed;
+}
+
+.style-pixel.theme-light .banner.error,
+.style-pixel.theme-light .side-error {
+  color: var(--text);
+}
+
+.style-pixel .inline-error,
+.style-pixel .side-error {
+  color: var(--text);
+  background: rgba(255, 84, 84, 0.16);
+}
+
+.style-pixel .inline-ok {
+  color: var(--text);
+  background: rgba(125, 255, 77, 0.16);
+}
+
+.style-pixel .profile-row.current {
+  border-color: var(--accent);
+  background: rgba(125, 255, 77, 0.1);
+}
+
+.style-pixel .profile-row.editing {
+  box-shadow: 0 0 0 2px var(--focus);
+}
+
+.style-pixel .progress {
+  height: 12px;
+  border-radius: 0;
+  border: 2px solid var(--pixel-ink);
+  background: var(--track);
+  padding: 2px;
+}
+
+.style-pixel .progress > span {
+  border-radius: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0,
+    var(--accent) 6px,
+    transparent 6px,
+    transparent 8px
+  );
+  transition: none;
+}
+
+.style-pixel .rate-dot {
+  border-radius: 0;
+}
+
+.style-pixel .expired-block {
+  border-top: 2px dashed var(--pixel-ink);
+}
+
+/* ---------- appearance pickers ---------- */
+
+.style-pixel .theme-option {
+  border: 2px solid var(--pixel-ink);
+  background: var(--input-bg);
+  font-size: 11px;
+  padding: 7px 10px;
+  box-shadow: 2px 2px 0 0 var(--pixel-shadow);
+}
+
+.style-pixel .theme-option:hover {
+  border-color: var(--focus);
+  color: var(--text);
+}
+
+.style-pixel .theme-option.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--pixel-ink);
+}
+
+.style-pixel.theme-high-contrast .theme-option.active {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+}
+
+.appearance-subheading {
+  margin: 14px 0 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.style-pixel .appearance-subheading {
+  font-family: var(--pixel-font);
+  font-weight: 400;
+  font-size: 9px;
+}
+
+/* The header toggle gets a subtle pixel edge so it reads as a skin switch. */
+.style-pixel .style-toggle {
+  border-color: var(--pixel-ink);
+  background: var(--input-bg);
+}
+
+/* ---------- overlays ---------- */
+
+.style-pixel .modal-backdrop {
+  backdrop-filter: none;
+  background: rgba(20, 20, 31, 0.72);
+  animation: none;
+}
+
+.style-pixel .modal {
+  border: 2px solid var(--pixel-ink);
+  box-shadow: 6px 6px 0 0 var(--pixel-shadow);
+  background: var(--glass-bg-strong);
+  animation: pixel-pop 120ms steps(2);
+}
+
+@keyframes pixel-pop {
+  from {
+    transform: translate(-2px, -2px);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
+
+.style-pixel .preset-button {
+  border: 2px solid var(--pixel-ink);
+  font-size: 12px;
+  height: 30px;
+  border-radius: 0;
+}
+
+.style-pixel .preset-button.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+  box-shadow: 2px 2px 0 0 var(--pixel-shadow);
+}
+
+.style-pixel .toast {
+  border: 2px solid var(--pixel-ink);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 0 var(--pixel-shadow);
+  animation: pixel-pop 120ms steps(2);
+}
+
+.style-pixel .toast.success {
+  color: var(--text);
+  border-left: 8px solid var(--accent);
+}
+
+.style-pixel .toast.error {
+  color: var(--text);
+  border-left: 8px solid var(--danger);
+}
+
+.style-pixel .spinner {
+  border-radius: 0;
+  border: 3px solid var(--track);
+  border-top-color: var(--accent);
+  animation: spin 0.8s steps(8) infinite;
+}
+
+.style-pixel .loading-bar {
+  height: 4px;
+  border-radius: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0,
+    var(--accent) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 200% 100%;
+  animation: loading-sweep 1s steps(8) infinite;
+}
+
+.style-pixel ::-webkit-scrollbar-thumb {
+  border-radius: 0;
+}
+
+.style-pixel :focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}

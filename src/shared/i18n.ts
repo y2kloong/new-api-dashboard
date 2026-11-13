@@ -8,6 +8,7 @@ const englishStrings = {
   'common.save': 'Save',
   'common.delete': 'Delete',
   'common.loading': 'Loading…',
+  'common.done': 'Done',
   'common.close': 'Close',
   'common.apply': 'Apply',
   'common.reset': 'Reset',
@@ -82,6 +83,13 @@ const englishStrings = {
   'theme.current': 'Theme: {{mode}}',
   'theme.hint':
     'A high-contrast editor theme always keeps its accessible palette.',
+
+  'style.label': 'Theme style',
+  'style.glass': 'Glass',
+  'style.pixel': 'Pixel Art',
+  'style.shadcn': 'shadcn/ui',
+  'style.hint':
+    'Theme style changes only the look: layout, data and controls stay the same.',
 
   'filter.title': 'Model analytics filters',
   'filter.description': 'Filter by time range and user.',
@@ -174,11 +182,16 @@ const englishStrings = {
   'error.invalidUrl': 'Enter a valid http(s) server URL.',
   'error.unknown': 'Unknown error.',
 
-  'sidebar.title': 'Usage overview',
   'sidebar.openDashboard': 'Open full dashboard',
   'sidebar.usage24h': 'Last 24h',
+  'sidebar.quotaUsed': 'Quota used',
+  'sidebar.requests': 'Requests',
+  'sidebar.connectTitle': 'Connect a site',
   'sidebar.noProfile': 'No server connected yet.',
   'sidebar.connect': 'Connect a server',
+  'sidebar.currentConfig': 'Current configuration',
+  'sidebar.switchConfig': 'Switch configuration',
+  'sidebar.editInPanel': 'Edit profiles in dashboard',
 
   'toast.refreshed': 'Data refreshed',
   'toast.profileSaved': 'Profile saved',
@@ -201,6 +214,7 @@ const chineseStrings: Record<StringKey, string> = {
   'common.save': '保存',
   'common.delete': '删除',
   'common.loading': '加载中…',
+  'common.done': '完成',
   'common.close': '关闭',
   'common.apply': '应用',
   'common.reset': '重置',
@@ -273,6 +287,12 @@ const chineseStrings: Record<StringKey, string> = {
   'theme.light': '浅色',
   'theme.current': '主题：{{mode}}',
   'theme.hint': '编辑器使用高对比主题时，看板始终保持高对比配色。',
+
+  'style.label': '主题风格',
+  'style.glass': '玻璃拟态',
+  'style.pixel': '像素风',
+  'style.shadcn': 'shadcn/ui',
+  'style.hint': '主题风格只改变外观，布局、数据与操作方式保持不变。',
 
   'filter.title': '模型分析筛选',
   'filter.description': '按时间范围与用户筛选。',
@@ -365,11 +385,16 @@ const chineseStrings: Record<StringKey, string> = {
   'error.invalidUrl': '请输入有效的 http(s) 服务器地址。',
   'error.unknown': '未知错误。',
 
-  'sidebar.title': '用量概览',
   'sidebar.openDashboard': '打开完整看板',
   'sidebar.usage24h': '近 24 小时',
+  'sidebar.quotaUsed': '消耗额度',
+  'sidebar.requests': '请求次数',
+  'sidebar.connectTitle': '连接站点',
   'sidebar.noProfile': '尚未连接服务器。',
   'sidebar.connect': '连接服务器',
+  'sidebar.currentConfig': '当前配置',
+  'sidebar.switchConfig': '切换配置',
+  'sidebar.editInPanel': '在看板中编辑配置',
 
   'toast.refreshed': '数据已刷新',
   'toast.profileSaved': '配置已保存',
