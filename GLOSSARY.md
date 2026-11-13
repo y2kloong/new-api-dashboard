@@ -11,7 +11,7 @@ only one is active at a time.
 
 ## Access Token
 
-A personal credential created in New API under *Personal settings → Access
+A personal credential created in New API under *Security & Access → Access
 tokens*. It identifies the user to the management API. It is not the same thing
 as an API key used to call models.
 

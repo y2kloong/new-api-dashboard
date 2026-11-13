@@ -49,7 +49,7 @@ const englishStrings = {
   'setup.token': 'Access token',
   'setup.tokenPlaceholder': 'Paste your personal access token',
   'setup.tokenHint':
-    'Create one in New API: Personal settings → Access tokens. The token is sent only to the server you configure.',
+    'Create one in New API: Security & Access → Access tokens. The token is sent only to the server you configure.',
   'setup.connect': 'Save and connect',
   'setup.testing': 'Testing…',
   'setup.testSuccess': 'Connected as {{user}}',
@@ -254,7 +254,7 @@ const chineseStrings: Record<StringKey, string> = {
   'setup.token': '访问令牌',
   'setup.tokenPlaceholder': '粘贴你的个人访问令牌',
   'setup.tokenHint':
-    '在 New API 的「个人设置 → 访问令牌」中生成。令牌只会发送到你填写的服务器。',
+    '在 New API 的「安全与访问 → 访问令牌」中生成。令牌只会发送到你填写的服务器。',
   'setup.connect': '保存并连接',
   'setup.testing': '测试中…',
   'setup.testSuccess': '已连接：{{user}}',

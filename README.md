@@ -95,7 +95,7 @@ cursor --install-extension new-api-dashboard-X.Y.Z.vsix
 
 ### 首次使用
 
-1. 在 New API 站点生成访问令牌：**个人设置 → 访问令牌**。
+1. 在 New API 站点生成访问令牌：**安全与访问 → 访问令牌**。
 2. 打开命令面板，执行 **NewAPI Dashboard: Open Dashboard**（或点击活动栏图标）。
 3. 填写服务器地址（例如 `https://newapi.example.com`）和令牌，点击 **保存并连接**。也可以先点 **测试连接** 验证地址和令牌。
 
@@ -238,7 +238,7 @@ Or use **Extensions: Install from VSIX...** from the Extensions view.
 
 ### Setup
 
-1. Create an access token in New API: **Personal settings → Access tokens**.
+1. Create an access token in New API: **Security & Access → Access tokens**.
 2. Open the command palette and run **NewAPI Dashboard: Open Dashboard** (or click the activity bar icon).
 3. Enter the server URL (for example `https://newapi.example.com`) and the token, then click **Save and connect**. You can use **Test connection** first to verify both values.
 
