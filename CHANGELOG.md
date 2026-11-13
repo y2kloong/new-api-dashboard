@@ -1,5 +1,66 @@
 # Changelog
 
+## 0.6.3
+
+- Kept the body gutter instead of removing it. The body now owns the 20px
+  horizontal padding (as a `--body-gutter` token), and the Radix scroll-lock
+  rule is overridden to keep that padding while a dropdown is open, so opening
+  a menu no longer widens the page and the host padding stays in place.
+
+## 0.6.2
+
+- Fixed the page widening when a dropdown opens: Radix's scroll lock
+  (`body[data-scroll-locked]`) rewrote the body padding and dropped the
+  webview host's 20px gutter. The webview body padding is now pinned to 0 at
+  higher specificity and that spacing moved into the app container, so the
+  layout stays put on any host.
+
+## 0.6.1
+
+- The header controls stay on one row again: the theme-style and language
+  selects size to their own label instead of filling the action row, and the
+  action group no longer wraps or squeezes the icon buttons.
+- The side bar header actions (theme, settings, refresh) are grouped together
+  at the right edge instead of being spread across the whole header.
+- The date-time picker has a **现在 / Now** action that sets the field to the
+  current moment, for start and end times alike.
+- The scrolling app container keeps its scrollbar gutter, so opening a
+  dropdown or the calendar no longer shifts or widens the page behind it.
+
+## 0.6.0
+
+- Replaced the native text inputs, dropdowns and `datetime-local` fields with
+  shadcn/ui controls: vendored Input and Select primitives (Radix) plus a
+  calendar date-time picker (react-day-picker). The controls follow the glass,
+  pixel and shadcn skins, and overlays are portalled into the app root so they
+  keep the active theme and skin.
+- Quick ranges and the default filter window now cover whole local days: the
+  start is 00:00 on the first day and the end is 23:59 on the last day, today
+  included (1 day = today only, 7 days = six days ago through today).
+
+## 0.5.1
+
+- The side bar subscription summary now shows used quota over total quota
+  (`used / total`) instead of remaining over total, matching the progress bar.
+
+## 0.5.0
+
+- The UI language can now be switched from the configuration page
+  (**Appearance → Language** / **外观 → 界面语言**) and the side bar settings:
+  follow editor, 中文 or English. The picker writes the existing
+  `lyNewApi.language` setting, so the setting and the UI stay in sync.
+- **shadcn/ui** is now the default theme style. Glass and Pixel Art remain
+  available from the style dropdown; installations that already saved a style
+  keep their choice.
+- Removed secondary copy outside the dashboard metrics: setup subtitles, field
+  hints and the configuration note box. The seven stat cards keep their one-line
+  descriptions; labels, values, spacing and controls carry the rest of the
+  hierarchy.
+- Added a **Run Extension** launch configuration so UI work can be verified in
+  an extension development host without packaging a VSIX.
+- Refreshed the README screenshots with the current layout and the shadcn/ui
+  default.
+
 ## 0.4.1
 
 - Pointed the access-token hint, the README setup step and the glossary entry at

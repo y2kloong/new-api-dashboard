@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react'
 import { createTranslator } from '../../../src/shared/i18n'
 import {
   computeTimeRange,
-  fromDatetimeLocalValue,
   granularityForRangeDays,
-  toDatetimeLocalValue,
 } from '../../../src/shared/time'
 import type {
   DashboardFilters,
@@ -12,6 +10,15 @@ import type {
   TimeGranularity,
 } from '../../../src/shared/types'
 import { post } from '../vscodeApi'
+import { DateTimePicker } from './ui/date-time-picker'
+import { Input } from './ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select'
 import { AlertIcon, CloseIcon } from './Icons'
 
 const PRESETS = [1, 7, 14, 29] as const
@@ -36,18 +43,28 @@ export function FilterDialog({ state, onClose }: FilterDialogProps) {
   const [granularity, setGranularity] = useState<TimeGranularity>(
     state.filters.granularity
   )
-  const [start, setStart] = useState(
-    toDatetimeLocalValue(state.filters.startTimestamp)
+  const [startTimestamp, setStartTimestamp] = useState(
+    state.filters.startTimestamp
   )
-  const [end, setEnd] = useState(
-    toDatetimeLocalValue(state.filters.endTimestamp)
-  )
+  const [endTimestamp, setEndTimestamp] = useState(state.filters.endTimestamp)
   const [username, setUsername] = useState(state.filters.username ?? '')
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
+      if (event.key !== 'Escape' || event.defaultPrevented) return
+      // A date popover or select menu is a layer above the dialog: its own
+      // Escape handling closes the layer and this guard keeps the dialog open.
+      const activeElement = document.activeElement
+      if (
+        activeElement instanceof Element &&
+        activeElement.closest(
+          '.ui-popover, .ui-select-content, [data-radix-popper-content-wrapper]'
+        )
+      ) {
+        return
+      }
+      onClose()
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
@@ -57,19 +74,13 @@ export function FilterDialog({ state, onClose }: FilterDialogProps) {
     const range = computeTimeRange(days)
     setPresetDays(days)
     setGranularity(granularityForRangeDays(days))
-    setStart(toDatetimeLocalValue(range.startTimestamp))
-    setEnd(toDatetimeLocalValue(range.endTimestamp))
+    setStartTimestamp(range.startTimestamp)
+    setEndTimestamp(range.endTimestamp)
     setError(null)
   }
 
   const apply = () => {
-    const startTimestamp = fromDatetimeLocalValue(start)
-    const endTimestamp = fromDatetimeLocalValue(end)
-    if (
-      startTimestamp === null ||
-      endTimestamp === null ||
-      startTimestamp >= endTimestamp
-    ) {
+    if (startTimestamp >= endTimestamp) {
       setError(t('filter.invalidRange'))
       return
     }
@@ -93,8 +104,8 @@ export function FilterDialog({ state, onClose }: FilterDialogProps) {
     const range = computeTimeRange(days)
     setPresetDays(days)
     setGranularity(state.preferences.defaultGranularity)
-    setStart(toDatetimeLocalValue(range.startTimestamp))
-    setEnd(toDatetimeLocalValue(range.endTimestamp))
+    setStartTimestamp(range.startTimestamp)
+    setEndTimestamp(range.endTimestamp)
     setUsername('')
     setError(null)
   }
@@ -146,24 +157,24 @@ export function FilterDialog({ state, onClose }: FilterDialogProps) {
           <section className='field-grid'>
             <div className='field'>
               <label htmlFor='filter-start'>{t('filter.start')}</label>
-              <input
+              <DateTimePicker
                 id='filter-start'
-                type='datetime-local'
-                value={start}
-                onChange={(event) => {
-                  setStart(event.target.value)
+                locale={state.locale}
+                value={startTimestamp}
+                onChange={(next) => {
+                  setStartTimestamp(next)
                   setPresetDays(null)
                 }}
               />
             </div>
             <div className='field'>
               <label htmlFor='filter-end'>{t('filter.end')}</label>
-              <input
+              <DateTimePicker
                 id='filter-end'
-                type='datetime-local'
-                value={end}
-                onChange={(event) => {
-                  setEnd(event.target.value)
+                locale={state.locale}
+                value={endTimestamp}
+                onChange={(next) => {
+                  setEndTimestamp(next)
                   setPresetDays(null)
                 }}
               />
@@ -172,27 +183,30 @@ export function FilterDialog({ state, onClose }: FilterDialogProps) {
               <label htmlFor='filter-granularity'>
                 {t('filter.granularity')}
               </label>
-              <select
-                id='filter-granularity'
+              <Select
                 value={granularity}
-                onChange={(event) =>
-                  setGranularity(event.target.value as TimeGranularity)
+                onValueChange={(next) =>
+                  setGranularity(next as TimeGranularity)
                 }
               >
-                <option value='hour'>{t('filter.hour')}</option>
-                <option value='day'>{t('filter.day')}</option>
-                <option value='week'>{t('filter.week')}</option>
-              </select>
+                <SelectTrigger id='filter-granularity'>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value='hour'>{t('filter.hour')}</SelectItem>
+                  <SelectItem value='day'>{t('filter.day')}</SelectItem>
+                  <SelectItem value='week'>{t('filter.week')}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             {state.profile?.isAdmin ? (
               <div className='field'>
                 <label htmlFor='filter-username'>{t('filter.username')}</label>
-                <input
+                <Input
                   id='filter-username'
                   value={username}
                   onChange={(event) => setUsername(event.target.value)}
-                  placeholder={t('filter.usernamePlaceholder')}
                   autoComplete='off'
                   spellCheck={false}
                 />

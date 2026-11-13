@@ -64,13 +64,13 @@ Spacing: 4 / 8 / 12 / 16 / 24 / 32. Dashboard density, not marketing spacing.
 - Donut: 44–68% radius, 2px surface-coloured border, 6px radius.
 - Ranking: horizontal bars, 16px max width, value labels on the right.
 
-## Skin: glass (`themeStyle: 'glass'`, default)
+## Skin: glass (`themeStyle: 'glass'`)
 
 The tokens in `styles.css` (`.style-glass`) are the frosted baseline described
 above. Glass is the only skin that uses `backdrop-filter` and the aurora
 gradient.
 
-## Skin: shadcn (`themeStyle: 'shadcn'`)
+## Skin: shadcn (`themeStyle: 'shadcn'`, default)
 
 `webview/src/shadcn.css` maps the app onto a shadcn/ui (zinc) surface language:
 flat fills, hairline borders, one soft shadow step, no texture or blur.

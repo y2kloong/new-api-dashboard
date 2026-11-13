@@ -39,6 +39,7 @@
   --input-bg: transparent;
   --track: var(--sh-muted);
   --focus: var(--sh-ring);
+  --focus-soft: var(--sh-ring-soft);
   --panel-blur: none;
   --radius-card: 12px;
   --radius-control: 8px;
@@ -335,7 +336,6 @@
 
 .style-shadcn .sub-card,
 .style-shadcn .profile-row,
-.style-shadcn .note-box,
 .style-shadcn .banner,
 .style-shadcn .inline-error,
 .style-shadcn .inline-ok,
@@ -352,11 +352,6 @@
 .style-shadcn .profile-row.current {
   border-color: rgba(34, 197, 94, 0.45);
   background: rgba(34, 197, 94, 0.06);
-}
-
-.style-shadcn .note-box {
-  background: var(--sh-muted);
-  border-style: solid;
 }
 
 .style-shadcn .banner.error,

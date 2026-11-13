@@ -6,6 +6,7 @@ import type {
   DashboardFilters,
   DashboardPreferences,
   DashboardViewModel,
+  LanguagePreference,
   Locale,
   ProfileSummary,
   QuotaRow,
@@ -29,6 +30,7 @@ import {
 export interface BuildViewModelInput {
   setupMode: boolean
   locale: Locale
+  language: LanguagePreference
   themeKind: ThemeKind
   profiles: ProfileSummary[]
   profile: ProfileSummary | null
@@ -58,6 +60,7 @@ export function buildDashboardViewModel(
     return {
       setupMode: true,
       locale: input.locale,
+      language: input.language,
       strings,
       themeKind: input.themeKind,
       themeStyle: input.preferences.themeStyle,
@@ -118,6 +121,7 @@ export function buildDashboardViewModel(
   return {
     setupMode: false,
     locale: input.locale,
+    language: input.language,
     strings,
     themeKind: input.themeKind,
     themeStyle: input.preferences.themeStyle,

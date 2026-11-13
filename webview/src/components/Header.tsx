@@ -10,6 +10,7 @@ import {
   SettingsIcon,
   SunIcon,
 } from './Icons'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { StyleSelect } from './ThemeStyleSwitch'
 
 interface HeaderProps {
@@ -54,20 +55,28 @@ export function Header({ state }: HeaderProps) {
 
       <div className='topbar-actions'>
         {state.profiles.length > 1 ? (
-          <select
-            className='glass-select'
-            value={profile?.id ?? ''}
-            onChange={(event) =>
-              post({ type: 'switchProfile', profileId: event.target.value })
+          <Select
+            value={profile?.id}
+            onValueChange={(profileId) =>
+              post({ type: 'switchProfile', profileId })
             }
-            title={t('header.profile')}
           >
-            {state.profiles.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger
+              size='sm'
+              className='glass-select'
+              title={t('header.profile')}
+              aria-label={t('header.profile')}
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {state.profiles.map((item) => (
+                <SelectItem key={item.id} value={item.id}>
+                  {item.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         ) : null}
 
         {profile?.isAdmin ? (

@@ -22,8 +22,8 @@ describe('isThemeStyle', () => {
 })
 
 describe('buildDefaultPreferences', () => {
-  it('defaults to the glass skin', () => {
-    expect(defaults.themeStyle).toBe('glass')
+  it('defaults to the shadcn/ui skin', () => {
+    expect(defaults.themeStyle).toBe('shadcn')
   })
 })
 
@@ -38,7 +38,7 @@ describe('sanitizePreferences', () => {
   })
 
   it('falls back when the theme style is missing', () => {
-    expect(sanitizePreferences({}, defaults).themeStyle).toBe('glass')
+    expect(sanitizePreferences({}, defaults).themeStyle).toBe('shadcn')
   })
 
   it('falls back when the webview sends an unknown theme style', () => {
@@ -46,7 +46,7 @@ describe('sanitizePreferences', () => {
       { themeStyle: 'vaporwave' as never },
       defaults
     )
-    expect(sanitized.themeStyle).toBe('glass')
+    expect(sanitized.themeStyle).toBe('shadcn')
   })
 
   it('does not let a theme style patch reset other preferences', () => {

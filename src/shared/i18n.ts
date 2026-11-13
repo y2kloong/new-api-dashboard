@@ -30,15 +30,10 @@ const englishStrings = {
   'common.active': 'Active',
 
   'setup.title': 'Connect your New API server',
-  'setup.subtitle':
-    'Add one profile per server. The access token stays in the editor secret storage and is never written to settings files.',
   'setup.manageTitle': 'Profiles & settings',
-  'setup.manageSubtitle':
-    'Add, edit or remove server profiles, and choose the dashboard appearance.',
   'setup.newProfile': 'Add a profile',
   'setup.editProfile': 'Edit profile',
   'setup.editTokenPlaceholder': 'Leave blank to keep the current token',
-  'setup.editHint': 'Leave the token blank to keep the saved one.',
   'setup.currentProfile': 'Currently in use',
   'setup.saveChanges': 'Save changes',
   'setup.cancelEdit': 'Cancel editing',
@@ -47,9 +42,7 @@ const englishStrings = {
   'setup.baseUrl': 'Server URL',
   'setup.baseUrlPlaceholder': 'https://your-new-api.example.com',
   'setup.token': 'Access token',
-  'setup.tokenPlaceholder': 'Paste your personal access token',
-  'setup.tokenHint':
-    'Create one in New API: Security & Access → Access tokens. The token is sent only to the server you configure.',
+  'setup.tokenPlaceholder': 'Security & Access → Access tokens',
   'setup.connect': 'Save and connect',
   'setup.testing': 'Testing…',
   'setup.testSuccess': 'Connected as {{user}}',
@@ -58,11 +51,7 @@ const englishStrings = {
   'setup.addProfile': 'Add profile',
   'setup.deleteConfirm': 'Delete this profile and its stored token?',
   'setup.useProfile': 'Use',
-  'setup.noProfiles': 'No profiles yet. Add your first one above.',
-  'setup.securityNote':
-    'No telemetry. Requests go only to the server URL you enter. Tokens are stored with VS Code SecretStorage.',
-  'setup.dataExportNote':
-    'The dashboard reads the server-side data export. If the charts stay empty, ask the administrator to enable data export in System settings → Dashboard.',
+  'setup.noProfiles': 'No profiles yet.',
   'setup.connectionFailed': 'Connection failed',
 
   'header.filter': 'Filter',
@@ -81,15 +70,16 @@ const englishStrings = {
   'theme.dark': 'Dark',
   'theme.light': 'Light',
   'theme.current': 'Theme: {{mode}}',
-  'theme.hint':
-    'A high-contrast editor theme always keeps its accessible palette.',
 
   'style.label': 'Theme style',
   'style.glass': 'Glass',
   'style.pixel': 'Pixel Art',
   'style.shadcn': 'shadcn/ui',
-  'style.hint':
-    'Theme style changes only the look: layout, data and controls stay the same.',
+
+  'language.label': 'Language',
+  'language.auto': 'Follow editor',
+  'language.zh': '中文',
+  'language.en': 'English',
 
   'filter.title': 'Model analytics filters',
   'filter.description': 'Filter by time range and user.',
@@ -99,11 +89,13 @@ const englishStrings = {
   'filter.end': 'End time',
   'filter.granularity': 'Time granularity',
   'filter.username': 'Username',
-  'filter.usernamePlaceholder': 'Filter by username',
   'filter.invalidRange': 'The start time must be earlier than the end time.',
   'filter.hour': 'Hour',
   'filter.day': 'Day',
   'filter.week': 'Week',
+  'filter.hourUnit': 'Hour',
+  'filter.minuteUnit': 'Minute',
+  'filter.now': 'Now',
   'filter.day1': '1 Day',
   'filter.day7': '7 Days',
   'filter.day14': '14 Days',
@@ -187,7 +179,6 @@ const englishStrings = {
   'sidebar.quotaUsed': 'Quota used',
   'sidebar.requests': 'Requests',
   'sidebar.connectTitle': 'Connect a site',
-  'sidebar.noProfile': 'No server connected yet.',
   'sidebar.connect': 'Connect a server',
   'sidebar.currentConfig': 'Current configuration',
   'sidebar.switchConfig': 'Switch configuration',
@@ -236,14 +227,10 @@ const chineseStrings: Record<StringKey, string> = {
   'common.active': '生效中',
 
   'setup.title': '连接你的 New API 站点',
-  'setup.subtitle':
-    '每个站点添加一个配置。访问令牌保存在编辑器的加密存储中，不会写入任何设置文件。',
   'setup.manageTitle': '配置与设置',
-  'setup.manageSubtitle': '添加、编辑或删除站点配置，并选择看板外观。',
   'setup.newProfile': '新增配置',
   'setup.editProfile': '编辑配置',
   'setup.editTokenPlaceholder': '留空以保留当前令牌',
-  'setup.editHint': '令牌留空表示保留已保存的令牌。',
   'setup.currentProfile': '当前使用',
   'setup.saveChanges': '保存修改',
   'setup.cancelEdit': '取消编辑',
@@ -252,9 +239,7 @@ const chineseStrings: Record<StringKey, string> = {
   'setup.baseUrl': '服务器地址',
   'setup.baseUrlPlaceholder': 'https://your-new-api.example.com',
   'setup.token': '访问令牌',
-  'setup.tokenPlaceholder': '粘贴你的个人访问令牌',
-  'setup.tokenHint':
-    '在 New API 的「安全与访问 → 访问令牌」中生成。令牌只会发送到你填写的服务器。',
+  'setup.tokenPlaceholder': '安全与访问 → 访问令牌',
   'setup.connect': '保存并连接',
   'setup.testing': '测试中…',
   'setup.testSuccess': '已连接：{{user}}',
@@ -263,11 +248,7 @@ const chineseStrings: Record<StringKey, string> = {
   'setup.addProfile': '新增配置',
   'setup.deleteConfirm': '删除这个配置及其保存的令牌？',
   'setup.useProfile': '使用',
-  'setup.noProfiles': '还没有配置，请在上方添加第一个。',
-  'setup.securityNote':
-    '零遥测。请求只发往你填写的服务器。令牌保存在 VS Code SecretStorage 中。',
-  'setup.dataExportNote':
-    '看板读取服务端的数据导出。若图表一直为空，请联系管理员在「系统设置 → 数据看板」中开启数据导出。',
+  'setup.noProfiles': '暂无配置。',
   'setup.connectionFailed': '连接失败',
 
   'header.filter': '筛选',
@@ -286,13 +267,16 @@ const chineseStrings: Record<StringKey, string> = {
   'theme.dark': '深色',
   'theme.light': '浅色',
   'theme.current': '主题：{{mode}}',
-  'theme.hint': '编辑器使用高对比主题时，看板始终保持高对比配色。',
 
   'style.label': '主题风格',
   'style.glass': '玻璃拟态',
   'style.pixel': '像素风',
   'style.shadcn': 'shadcn/ui',
-  'style.hint': '主题风格只改变外观，布局、数据与操作方式保持不变。',
+
+  'language.label': '界面语言',
+  'language.auto': '跟随编辑器',
+  'language.zh': '中文',
+  'language.en': 'English',
 
   'filter.title': '模型分析筛选',
   'filter.description': '按时间范围与用户筛选。',
@@ -302,11 +286,13 @@ const chineseStrings: Record<StringKey, string> = {
   'filter.end': '结束时间',
   'filter.granularity': '时间粒度',
   'filter.username': '用户名',
-  'filter.usernamePlaceholder': '按用户名筛选',
   'filter.invalidRange': '开始时间必须早于结束时间。',
   'filter.hour': '小时',
   'filter.day': '天',
   'filter.week': '周',
+  'filter.hourUnit': '小时',
+  'filter.minuteUnit': '分钟',
+  'filter.now': '现在',
   'filter.day1': '1 天',
   'filter.day7': '7 天',
   'filter.day14': '14 天',
@@ -390,7 +376,6 @@ const chineseStrings: Record<StringKey, string> = {
   'sidebar.quotaUsed': '消耗额度',
   'sidebar.requests': '请求次数',
   'sidebar.connectTitle': '连接站点',
-  'sidebar.noProfile': '尚未连接服务器。',
   'sidebar.connect': '连接服务器',
   'sidebar.currentConfig': '当前配置',
   'sidebar.switchConfig': '切换配置',

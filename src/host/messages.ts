@@ -4,6 +4,7 @@ import type {
   DashboardFilters,
   DashboardPreferences,
   HostToWebviewMessage,
+  LanguagePreference,
   ProfileInput,
   WebviewToHostMessage,
 } from '../shared/types'
@@ -47,6 +48,13 @@ export async function handleWebviewMessage(
         | undefined
       if (preferences) {
         await controller.setPreferences(preferences)
+      }
+      return
+    }
+    case 'setLanguage': {
+      const language = message.language as LanguagePreference | undefined
+      if (language === 'auto' || language === 'zh' || language === 'en') {
+        await controller.setLanguage(language)
       }
       return
     }

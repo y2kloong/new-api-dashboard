@@ -11,6 +11,7 @@ import {
   SunIcon,
 } from './Icons'
 import { StyleSelect } from './ThemeStyleSwitch'
+import { LanguageSelect } from './LanguageSelect'
 
 interface SidebarSettingsProps {
   state: DashboardViewModel
@@ -83,9 +84,7 @@ function SidebarSettings({ state, onClose }: SidebarSettingsProps) {
       <section className='side-section glass'>
         <div className='side-label'>{t('theme.label')}</div>
         <div className='side-theme-row'>
-          <span className='side-meta'>
-            {t('theme.current', { mode: themeModeLabel })}
-          </span>
+          <span className='side-meta'>{t('header.theme')}</span>
           <div className='side-theme-actions'>
             <button
               type='button'
@@ -109,6 +108,14 @@ function SidebarSettings({ state, onClose }: SidebarSettingsProps) {
             locale={state.locale}
             style={state.themeStyle}
             className='style-select-compact'
+          />
+        </div>
+        <div className='side-theme-row'>
+          <span className='side-meta'>{t('language.label')}</span>
+          <LanguageSelect
+            locale={state.locale}
+            language={state.language}
+            className='language-select-compact'
           />
         </div>
       </section>
@@ -150,7 +157,6 @@ export function SidebarView({ state }: { state: DashboardViewModel }) {
     return (
       <div className='sidebar sidebar-empty'>
         <h2 className='side-heading'>{t('sidebar.connectTitle')}</h2>
-        <p className='muted'>{t('sidebar.noProfile')}</p>
         <button
           type='button'
           className='primary-button full'
@@ -179,38 +185,40 @@ export function SidebarView({ state }: { state: DashboardViewModel }) {
             {state.profile.displayName || state.profile.username || '—'}
           </div>
         </div>
-        <button
-          type='button'
-          className='icon-button'
-          onClick={() =>
-            post({
-              type: 'setPreferences',
-              preferences: { themeMode: nextThemeMode(themeMode) },
-            })
-          }
-          aria-label={t('theme.current', { mode: themeModeLabel })}
-          title={t('theme.current', { mode: themeModeLabel })}
-        >
-          <ThemeIcon width={14} height={14} />
-        </button>
-        <button
-          type='button'
-          className='icon-button'
-          onClick={() => setSettingsOpen(true)}
-          aria-label={t('header.manage')}
-          title={t('header.manage')}
-        >
-          <SettingsIcon width={14} height={14} />
-        </button>
-        <button
-          type='button'
-          className='icon-button'
-          onClick={() => post({ type: 'refresh' })}
-          aria-label={t('common.refresh')}
-          title={t('common.refresh')}
-        >
-          <RefreshIcon className={state.loading ? 'spin' : undefined} />
-        </button>
+        <div className='side-actions'>
+          <button
+            type='button'
+            className='icon-button'
+            onClick={() =>
+              post({
+                type: 'setPreferences',
+                preferences: { themeMode: nextThemeMode(themeMode) },
+              })
+            }
+            aria-label={t('theme.current', { mode: themeModeLabel })}
+            title={t('theme.current', { mode: themeModeLabel })}
+          >
+            <ThemeIcon width={14} height={14} />
+          </button>
+          <button
+            type='button'
+            className='icon-button'
+            onClick={() => setSettingsOpen(true)}
+            aria-label={t('header.manage')}
+            title={t('header.manage')}
+          >
+            <SettingsIcon width={14} height={14} />
+          </button>
+          <button
+            type='button'
+            className='icon-button'
+            onClick={() => post({ type: 'refresh' })}
+            aria-label={t('common.refresh')}
+            title={t('common.refresh')}
+          >
+            <RefreshIcon className={state.loading ? 'spin' : undefined} />
+          </button>
+        </div>
       </div>
 
       <section className='side-section glass'>
@@ -229,7 +237,7 @@ export function SidebarView({ state }: { state: DashboardViewModel }) {
             <div className='side-quota mono'>
               {card.unlimited
                 ? t('common.unlimited')
-                : `${card.quotaRemainingText} / ${card.quotaTotalText}`}
+                : `${card.quotaUsedText} / ${card.quotaTotalText}`}
             </div>
           </>
         ) : (

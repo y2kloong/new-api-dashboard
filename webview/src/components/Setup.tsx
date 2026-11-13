@@ -18,6 +18,8 @@ import {
   TrashIcon,
 } from './Icons'
 import { StyleOptionGroup } from './ThemeStyleSwitch'
+import { LanguageOptionGroup } from './LanguageSelect'
+import { Input } from './ui/input'
 
 interface SetupViewProps {
   state: DashboardViewModel
@@ -103,9 +105,6 @@ export function SetupView({ state, testResult }: SetupViewProps) {
             <h1 className='setup-title'>
               {hasProfiles ? t('setup.manageTitle') : t('setup.title')}
             </h1>
-            <p className='setup-subtitle'>
-              {hasProfiles ? t('setup.manageSubtitle') : t('setup.subtitle')}
-            </p>
           </div>
         </div>
         {hasProfiles ? (
@@ -127,7 +126,7 @@ export function SetupView({ state, testResult }: SetupViewProps) {
 
           <div className='field'>
             <label htmlFor='profile-name'>{t('setup.name')}</label>
-            <input
+            <Input
               id='profile-name'
               value={name}
               onChange={(event) => setName(event.target.value)}
@@ -139,7 +138,7 @@ export function SetupView({ state, testResult }: SetupViewProps) {
 
           <div className='field'>
             <label htmlFor='profile-url'>{t('setup.baseUrl')}</label>
-            <input
+            <Input
               id='profile-url'
               value={baseUrl}
               onChange={(event) => setBaseUrl(event.target.value)}
@@ -152,7 +151,7 @@ export function SetupView({ state, testResult }: SetupViewProps) {
 
           <div className='field'>
             <label htmlFor='profile-token'>{t('setup.token')}</label>
-            <input
+            <Input
               id='profile-token'
               type='password'
               value={token}
@@ -163,9 +162,6 @@ export function SetupView({ state, testResult }: SetupViewProps) {
               autoComplete='new-password'
               spellCheck={false}
             />
-            <p className='field-hint'>
-              {editing ? t('setup.editHint') : t('setup.tokenHint')}
-            </p>
           </div>
 
           {error ? (
@@ -329,17 +325,16 @@ export function SetupView({ state, testResult }: SetupViewProps) {
                 )
               })}
             </div>
-            <p className='field-hint'>{t('theme.hint')}</p>
 
             <h3 className='appearance-subheading'>{t('style.label')}</h3>
             <StyleOptionGroup locale={state.locale} style={state.themeStyle} />
-            <p className='field-hint'>{t('style.hint')}</p>
-          </section>
 
-          <div className='note-box'>
-            <div className='note-title'>{t('setup.securityNote')}</div>
-            <div className='note-body'>{t('setup.dataExportNote')}</div>
-          </div>
+            <h3 className='appearance-subheading'>{t('language.label')}</h3>
+            <LanguageOptionGroup
+              locale={state.locale}
+              language={state.language}
+            />
+          </section>
         </aside>
       </div>
     </div>

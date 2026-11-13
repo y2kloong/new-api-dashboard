@@ -2,7 +2,7 @@
   "name": "new-api-dashboard",
   "displayName": "NewAPI Dashboard",
   "description": "Unofficial New API usage dashboard for VS Code and Cursor: model call analytics, quota distribution and subscription status without leaving the editor.",
-  "version": "0.4.1",
+  "version": "0.6.3",
   "publisher": "y2kloong",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -134,8 +134,12 @@
     "vscode:prepublish": "npm run build"
   },
   "dependencies": {
+    "@radix-ui/react-popover": "^1.3.1",
+    "@radix-ui/react-select": "^2.4.1",
+    "clsx": "^2.1.1",
     "echarts": "^6.1.0",
     "react": "^19.3.1",
+    "react-day-picker": "^10.0.2",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {

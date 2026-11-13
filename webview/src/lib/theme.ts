@@ -8,7 +8,7 @@ export function nextThemeMode(current: ThemeMode): ThemeMode {
 }
 
 /** Render order of the skin pickers: default first, newest last. */
-export const THEME_STYLES: ThemeStyle[] = ['glass', 'pixel', 'shadcn']
+export const THEME_STYLES: ThemeStyle[] = ['shadcn', 'glass', 'pixel']
 
 export const THEME_STYLE_LABEL_KEYS = {
   glass: 'style.glass',

@@ -19,15 +19,15 @@
 
 ![NewAPI Dashboard in dark theme](media/screenshots/dashboard-dark.png)
 
-*深色主题：订阅、性能健康条、7 张指标卡、额度分布与模型调用分析。 / Dark theme with subscription, performance health, seven stat cards, quota distribution and model analytics.*
+*深色 shadcn/ui 主题：订阅、性能健康条、7 张指标卡、额度分布与模型调用分析。 / Dark shadcn/ui theme with subscription, performance health, seven stat cards, quota distribution and model analytics.*
 
 ![NewAPI Dashboard in light theme](media/screenshots/dashboard-light.png)
 
-*浅色主题与英文界面。 / Light theme with the English UI.*
+*浅色 shadcn/ui 主题与英文界面。 / Light shadcn/ui theme with the English UI.*
 
 ![Profiles and appearance settings](media/screenshots/profiles.png)
 
-*统一的配置页：站点配置、令牌与外观。 / One configuration page for profiles, tokens and appearance.*
+*统一的配置页：站点配置、令牌、主题风格与界面语言。 / One configuration page for profiles, tokens, theme style and language.*
 
 ![Compact sidebar overview](media/screenshots/sidebar.png)
 
@@ -44,16 +44,16 @@
 - **用量总览**：总调用数、总额度、总 Token、缓存读、缓存写、平均 RPM、平均 TPM 共 7 张指标卡。
 - **额度分布**：按时间桶和模型堆叠展示，支持柱状图 / 面积图切换。
 - **模型调用分析**：调用趋势、调用占比、调用数排名三种视图；Top 12 之外的额度/调用归入「其他」，排名列表最多显示 20 个模型。
-- **筛选**：1 / 7 / 14 / 29 天快捷区间、自定义起止时间、小时 / 天 / 周粒度；管理员还可以再按用户名筛选。
+- **筛选**：1 / 7 / 14 / 29 天快捷区间（按自然日，从 00:00 到 23:59，含今天）、自定义起止时间、小时 / 天 / 周粒度；管理员还可以再按用户名筛选。输入框、下拉框和时间选择器使用 shadcn/ui 组件。
 - **我的订阅**：套餐、状态、剩余天数、到期时间、下一次重置、额度已用 / 总额 / 剩余与进度条、计费偏好和站点链接；已过期 / 已取消订阅折叠展示。
 - **多站点配置**：新增、编辑、测试、切换、删除站点配置；令牌保存在 VS Code `SecretStorage`，编辑时留空表示沿用原令牌。
 - **管理员自动识别**：令牌角色 `role >= 10` 时改用全站数据；站点提供性能接口时显示性能健康条。
 - **四个入口**：活动栏图标、资源管理器侧边栏概览、编辑器标签页全宽看板、状态栏摘要（点击打开看板）。
 - **金额显示**：跟随服务端 `/api/status` 的 `quota_display_type`，支持 USD、CNY、Tokens 和自定义货币。
 - **主题切换**：跟随编辑器 / 深色 / 浅色三种模式；编辑器和看板使用高对比主题时始终保持无障碍配色。
-- **主题风格**：内置「玻璃拟态」「像素风」（Pixel Art）与「shadcn/ui」三套皮肤，看板头部用下拉框切换。皮肤只改变视觉语言——配色、圆角、边框、阴影、纹理与图表画法，布局、卡片和操作方式完全不变；深色 / 浅色 / 高对比编辑器下都可用。
+- **主题风格**：默认使用「shadcn/ui」扁平风格，另内置「玻璃拟态」与「像素风」（Pixel Art）两套皮肤，看板头部用下拉框切换。皮肤只改变视觉语言——配色、圆角、边框、阴影、纹理与图表画法，布局、卡片和操作方式完全不变；深色 / 浅色 / 高对比编辑器下都可用。
 - **统一的配置页**：站点配置与外观设置集中在同一处，不再有重复入口。
-- **中英双语**：跟随编辑器语言，也可以在设置中手动指定。
+- **中英双语**：可在配置页的「外观 → 界面语言」中切换（跟随编辑器 / 中文 / English），也可以直接修改 `lyNewApi.language` 设置。
 - **自动刷新与离线兜底**：看板可见时按间隔自动刷新；刷新失败时保留最近一次成功快照，并显示「数据可能已过期」。
 
 ### 安装
@@ -187,16 +187,16 @@ MIT。见 [LICENSE](https://github.com/y2kloong/new-api-dashboard/blob/main/LICE
 - **Usage overview**: seven stat cards for total calls, total quota, total tokens, cache read, cache write, average RPM and average TPM.
 - **Quota distribution**: stacked by time bucket and model, with a bar / area chart switch.
 - **Model call analytics**: trend, call-count distribution and call-count ranking; quota and calls outside the top 12 models are grouped as "Other", and the ranking lists up to 20 models.
-- **Filters**: 1 / 7 / 14 / 29-day presets, a custom start and end time, and hour / day / week granularity. Administrators can also filter by username.
+- **Filters**: 1 / 7 / 14 / 29-day presets that cover whole local days (00:00 through 23:59, today included), a custom start and end time, and hour / day / week granularity. Administrators can also filter by username. Inputs, dropdowns and the date-time picker use shadcn/ui components.
 - **Subscriptions**: plan, status, remaining days, expiry, next reset, used / total / remaining quota with a progress bar, billing preference and a link to the site wallet. Expired and cancelled subscriptions are collapsed.
 - **Multiple server profiles**: add, edit, test, switch and delete profiles. Tokens live in VS Code `SecretStorage`; leaving the token field blank while editing keeps the saved token.
 - **Admin detection**: tokens with `role >= 10` switch to site-wide data, and the performance health strip appears when the site exposes the performance endpoint.
 - **Four entry points**: activity bar view, Explorer side bar overview, full-width editor tab, and a status bar summary that opens the dashboard.
 - **Currency display**: follows `quota_display_type` from `/api/status` and supports USD, CNY, tokens and custom currencies.
 - **Theme switch**: follow the editor, dark or light. High-contrast editor themes always keep their accessible palette.
-- **Theme style**: three skins — *Glass*, *Pixel Art* and *shadcn/ui* — picked from a dropdown in the dashboard header. A skin only swaps the visual language (palette, radii, borders, shadows, texture and chart rendering); layout, cards and controls stay the same. All three work in dark, light and high-contrast editors.
+- **Theme style**: **shadcn/ui** is the default flat look; *Glass* and *Pixel Art* ship as alternatives, picked from a dropdown in the dashboard header. A skin only swaps the visual language (palette, radii, borders, shadows, texture and chart rendering); layout, cards and controls stay the same. All three work in dark, light and high-contrast editors.
 - **One configuration page**: profiles and appearance in a single place, with no duplicate entry points.
-- **English / Chinese**: follows the editor language and can also be set explicitly.
+- **English / Chinese**: switch the UI language under **Appearance → Language** on the configuration page (follow editor / 中文 / English), or set `lyNewApi.language` directly.
 - **Auto refresh and offline fallback**: refreshes on an interval while a dashboard is visible; a failed refresh keeps the last successful snapshot and marks the data as possibly stale.
 
 ### Install

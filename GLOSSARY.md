@@ -52,8 +52,9 @@ buckets with no usage.
 
 ## Time Bucket Range
 
-The selected reporting window. Quick presets are rolling windows ending now;
-custom ranges use the timestamps the user picked.
+The selected reporting window. Quick presets cover whole local days, today
+included: start at 00:00 on the first day and end at 23:59 on the last day.
+Custom ranges use the timestamps the user picked.
 
 ## Data Export
 

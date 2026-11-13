@@ -4,13 +4,18 @@
  */
 
 export type Locale = 'zh' | 'en'
+/**
+ * UI language the user picked. `auto` follows the editor display language and
+ * is the only value that is not a locale by itself.
+ */
+export type LanguagePreference = Locale | 'auto'
 export type ThemeKind = 'dark' | 'light' | 'high-contrast'
 /** `auto` follows the editor colour theme; `dark` / `light` pin the dashboard. */
 export type ThemeMode = 'auto' | 'dark' | 'light'
 /**
- * Visual skin on top of the colour mode. `glass` is the default frosted look,
- * `pixel` the 8-bit skin and `shadcn` a flat neutral (shadcn/ui) look; all three
- * swap tokens and textures only — layout and content stay identical.
+ * Visual skin on top of the colour mode. `shadcn` is the default flat neutral
+ * (shadcn/ui) look, `glass` the frosted variant and `pixel` the 8-bit skin;
+ * all three swap tokens and textures only — layout and content stay identical.
  */
 export type ThemeStyle = 'glass' | 'pixel' | 'shadcn'
 export type TimeGranularity = 'hour' | 'day' | 'week'
@@ -191,6 +196,8 @@ export interface DashboardErrorViewModel {
 export interface DashboardViewModel {
   setupMode: boolean
   locale: Locale
+  /** Raw `lyNewApi.language` value, so the picker can highlight `auto`. */
+  language: LanguagePreference
   strings: Record<string, string>
   themeKind: ThemeKind
   themeStyle: ThemeStyle
@@ -225,6 +232,7 @@ export type WebviewToHostMessage =
   | { type: 'refresh' }
   | { type: 'applyFilters'; filters: DashboardFilters }
   | { type: 'setPreferences'; preferences: Partial<DashboardPreferences> }
+  | { type: 'setLanguage'; language: LanguagePreference }
   | { type: 'switchProfile'; profileId: string }
   | { type: 'addProfile'; profile: ProfileInput }
   | { type: 'updateProfile'; profileId: string; profile: ProfileInput }

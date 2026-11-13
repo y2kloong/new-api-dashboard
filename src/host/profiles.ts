@@ -32,7 +32,7 @@ export const DEFAULT_PREFERENCES: DashboardPreferences = {
   defaultDays: 1,
   defaultGranularity: 'hour',
   themeMode: 'auto',
-  themeStyle: 'glass',
+  themeStyle: 'shadcn',
 }
 
 const ALLOWED_DAYS = [1, 7, 14, 29]

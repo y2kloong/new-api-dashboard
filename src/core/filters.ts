@@ -30,7 +30,7 @@ export function buildDefaultPreferences(): DashboardPreferences {
     defaultDays: 1,
     defaultGranularity: 'hour',
     themeMode: 'auto',
-    themeStyle: 'glass',
+    themeStyle: 'shadcn',
   }
 }
 

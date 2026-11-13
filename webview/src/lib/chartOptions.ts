@@ -414,7 +414,7 @@ export function buildQuotaChartOption(
   currency: CurrencySummary,
   locale: Locale,
   themeKind: ThemeKind,
-  themeStyle: ThemeStyle = 'glass'
+  themeStyle: ThemeStyle = 'shadcn'
 ): EChartsCoreOption {
   const theme = getChartTheme(themeKind, themeStyle)
   const labels = chart.buckets.map((bucket) => bucket.label)
@@ -513,7 +513,7 @@ export function buildModelChartOption(
   tab: ModelChartTab,
   locale: Locale,
   themeKind: ThemeKind,
-  themeStyle: ThemeStyle = 'glass'
+  themeStyle: ThemeStyle = 'shadcn'
 ): EChartsCoreOption {
   const { chart } = input
   const theme = getChartTheme(themeKind, themeStyle)

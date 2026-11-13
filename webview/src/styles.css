@@ -26,9 +26,12 @@
   --grid-line: rgba(255, 255, 255, 0.08);
   --input-bg: rgba(255, 255, 255, 0.06);
   --focus: #93c5fd;
+  --focus-soft: rgba(147, 197, 253, 0.28);
   --track: rgba(255, 255, 255, 0.1);
   --radius-card: 14px;
   --radius-control: 9px;
+  /* Horizontal body gutter (VS Code injects the same 20px in webviews). */
+  --body-gutter: 20px;
   --font: var(--vscode-font-family, "Segoe UI", system-ui, sans-serif);
   --mono: var(--vscode-editor-font-family, Consolas, "Courier New", monospace);
 }
@@ -89,6 +92,7 @@
   --glass-shadow: none;
   --grid-line: var(--vscode-contrastBorder, #ffffff);
   --input-bg: var(--vscode-input-background);
+  --focus-soft: transparent;
   --track: var(--vscode-contrastBorder, #ffffff);
 }
 
@@ -100,12 +104,27 @@ body,
 
 body {
   margin: 0;
+  /* VS Code webviews inject `padding: 0 20px` on body; keep that gutter on the
+     body and make it explicit so it does not depend on the host stylesheet. */
+  padding: 0 var(--body-gutter);
   background: var(--bg);
   color: var(--text);
   font-family: var(--font);
   font-size: 13px;
   line-height: 1.5;
   overflow: hidden;
+}
+
+/*
+ * Radix's scroll lock (`body[data-scroll-locked]`, injected by
+ * react-remove-scroll-bar in margin mode) rewrites the body paddings from the
+ * measured margins. Those margins are 0, so opening a dropdown replaced the
+ * body gutter with 0 and widened the page. Put the gutter back and win over
+ * the injected rule regardless of its order.
+ */
+body[data-scroll-locked] {
+  padding-left: var(--body-gutter) !important;
+  padding-right: var(--body-gutter) !important;
 }
 
 button,
@@ -177,6 +196,9 @@ button:disabled {
   position: relative;
   height: 100%;
   overflow: auto;
+  /* Keep the scrollbar gutter reserved so opening a portalled overlay cannot
+     widen the layout when the scrollbar is temporarily hidden. */
+  scrollbar-gutter: stable;
   padding: 16px 18px 28px;
 }
 
@@ -226,6 +248,7 @@ button:disabled {
   justify-content: center;
   width: 30px;
   height: 30px;
+  flex: none;
   padding: 0;
   border: 1px solid transparent;
   border-radius: var(--radius-control);
@@ -330,9 +353,19 @@ select option {
   font-size: 12px;
 }
 
-/* Theme-style dropdown: one width for the longest label so the header does not
-   shift when switching skins. */
-.style-select {
+/* Theme-style and language dropdowns: one width for the longest label so the
+   header does not shift when switching values. The double class beats the
+   shared `.ui-select-trigger { width: 100% }` rule from `ui.css`; a full-width
+   trigger makes the wrapping action row collapse to its own max-content. */
+.glass-select.ui-select-trigger,
+.style-select.ui-select-trigger,
+.language-select.ui-select-trigger {
+  width: auto;
+  flex: none;
+}
+
+.style-select,
+.language-select {
   height: 30px;
   max-width: 132px;
   padding: 0 8px;
@@ -341,7 +374,8 @@ select option {
   background: var(--glass-bg);
 }
 
-.style-select-compact {
+.style-select-compact,
+.language-select-compact {
   height: 26px;
   max-width: 118px;
   font-size: 11px;
@@ -481,7 +515,8 @@ select option {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  flex-wrap: wrap;
+  flex: none;
+  flex-wrap: nowrap;
   gap: 8px;
 }
 
@@ -1148,13 +1183,6 @@ select option {
   letter-spacing: -0.02em;
 }
 
-.setup-subtitle {
-  margin: 4px 0 0;
-  max-width: 620px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
 .setup-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
@@ -1198,12 +1226,6 @@ select option {
   width: 100%;
 }
 
-.field-hint {
-  margin: 0;
-  color: var(--faint);
-  font-size: 11px;
-}
-
 .form-actions {
   display: flex;
   align-items: center;
@@ -1236,25 +1258,6 @@ select option {
 
 .inline-hint {
   margin-top: 2px;
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.note-box {
-  margin-top: 16px;
-  padding: 10px 12px;
-  border: 1px dashed var(--glass-border);
-  border-radius: 10px;
-  background: rgba(148, 163, 184, 0.05);
-}
-
-.note-title {
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.note-body {
-  margin-top: 4px;
   color: var(--muted);
   font-size: 11px;
 }
@@ -1514,6 +1517,13 @@ select option {
   min-width: 0;
 }
 
+.side-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
 .side-name {
   font-size: 13px;
   font-weight: 650;
@@ -1754,6 +1764,7 @@ select option {
   .topbar-actions {
     width: 100%;
     justify-content: flex-start;
+    flex-wrap: wrap;
   }
 
   .field-grid {

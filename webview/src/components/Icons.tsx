@@ -115,6 +115,23 @@ export function ChevronDownIcon(props: IconProps) {
   )
 }
 
+export function ChevronUpIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <path d="m6 15 6-6 6 6" />
+    </svg>
+  )
+}
+
+export function CalendarIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M8 3v4M16 3v4M3 10h18" />
+    </svg>
+  )
+}
+
 export function CrownIcon(props: IconProps) {
   return (
     <svg {...baseProps} {...props}>
@@ -245,6 +262,16 @@ export function MonitorIcon(props: IconProps) {
     <svg {...baseProps} {...props}>
       <rect x="3" y="4" width="18" height="12" rx="2" />
       <path d="M8 20h8M12 16v4" />
+    </svg>
+  )
+}
+
+export function GlobeIcon(props: IconProps) {
+  return (
+    <svg {...baseProps} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3Z" />
     </svg>
   )
 }

@@ -5,6 +5,7 @@ dist/
 Thumbs.db
 coverage/
 .vscode-test/
+.preview/
 *.log
 .claude/
 .cursor/

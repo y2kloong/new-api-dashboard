@@ -1,0 +1,302 @@
+/*
+ * shadcn/ui control primitives.
+ *
+ * The markup is the vendored shadcn structure (Radix Select and Popover, plus
+ * react-day-picker for the calendar) but the styling is expressed with the
+ * design tokens in `styles.css`, so the same controls follow the glass, pixel
+ * and shadcn skins instead of forcing Tailwind onto all of them.
+ */
+
+.ui-input,
+.ui-select-trigger,
+.ui-date-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-control);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1;
+  text-align: left;
+  outline: none;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.ui-input:focus-visible,
+.ui-select-trigger:focus-visible,
+.ui-select-trigger[data-state="open"],
+.ui-date-trigger:focus-visible,
+.ui-date-trigger[data-state="open"] {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 2px var(--focus-soft);
+}
+
+.ui-input::placeholder {
+  color: var(--faint);
+}
+
+/* ---------- select ---------- */
+
+.ui-select-trigger {
+  justify-content: space-between;
+}
+
+.ui-select-trigger-sm {
+  height: 30px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.ui-select-chevron {
+  flex: none;
+  opacity: 0.6;
+}
+
+.ui-select-content {
+  z-index: 70;
+  min-width: var(--radix-select-trigger-width);
+  max-height: var(--radix-select-content-available-height);
+  overflow: hidden;
+  padding: 4px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-control);
+  background: var(--glass-solid);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--panel-blur);
+  -webkit-backdrop-filter: var(--panel-blur);
+  color: var(--text);
+  animation: fade-in 120ms ease;
+}
+
+.ui-select-viewport {
+  padding: 0;
+}
+
+.ui-select-scroll {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  color: var(--muted);
+}
+
+.ui-select-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 12px;
+  cursor: default;
+  user-select: none;
+  outline: none;
+}
+
+.ui-select-item[data-highlighted] {
+  background: var(--glass-bg-strong);
+}
+
+.ui-select-item[data-state="checked"] {
+  font-weight: 500;
+}
+
+.ui-select-item[data-disabled] {
+  opacity: 0.5;
+}
+
+.ui-select-indicator {
+  display: inline-flex;
+  flex: none;
+  color: var(--accent);
+}
+
+/* ---------- date-time picker ---------- */
+
+.ui-date-trigger {
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-date-icon {
+  flex: none;
+  color: var(--muted);
+}
+
+.ui-popover {
+  z-index: 70;
+  padding: 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  background: var(--glass-solid);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--panel-blur);
+  -webkit-backdrop-filter: var(--panel-blur);
+  color: var(--text);
+  outline: none;
+  animation: fade-in 120ms ease;
+}
+
+.ui-datetime-popover {
+  width: max-content;
+}
+
+.ui-datetime-time {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.ui-time-input {
+  width: 52px;
+  height: 30px;
+  padding: 0 6px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.ui-time-separator {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.ui-time-now {
+  height: 26px;
+  margin-left: 4px;
+  padding: 0 9px;
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  background: var(--glass-bg);
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.ui-time-now:hover {
+  background: var(--glass-bg-strong);
+  color: var(--text);
+}
+
+/* ---------- calendar ---------- */
+
+.ui-calendar.rdp-root {
+  --rdp-accent-color: var(--accent);
+  --rdp-accent-background-color: rgba(34, 197, 94, 0.14);
+  --rdp-day-height: 32px;
+  --rdp-day-width: 32px;
+  --rdp-day_button-height: 30px;
+  --rdp-day_button-width: 30px;
+  --rdp-day_button-border-radius: 6px;
+  --rdp-nav_button-height: 26px;
+  --rdp-nav_button-width: 26px;
+  --rdp-nav-height: 30px;
+  --rdp-months-gap: 12px;
+  --rdp-weekday-opacity: 1;
+  --rdp-weekday-padding: 2px 0;
+  --rdp-weekday-text-align: center;
+
+  margin: 0;
+  color: var(--text);
+  font-size: 12px;
+}
+
+.ui-calendar .rdp-month_caption {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ui-calendar .rdp-caption_label {
+  font-weight: 600;
+}
+
+.ui-calendar .rdp-weekday {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.ui-calendar .rdp-day_button {
+  border: 1px solid transparent;
+  color: var(--text);
+}
+
+.ui-calendar .rdp-day_button:hover:not(:disabled) {
+  background: var(--glass-bg-strong);
+}
+
+.ui-calendar .rdp-selected {
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.ui-calendar .rdp-selected .rdp-day_button {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.ui-calendar .rdp-today:not(.rdp-selected) .rdp-day_button {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.ui-calendar .rdp-outside {
+  color: var(--faint);
+  opacity: 1;
+}
+
+.ui-calendar .rdp-button_previous,
+.ui-calendar .rdp-button_next {
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.ui-calendar .rdp-button_previous:hover:not(:disabled),
+.ui-calendar .rdp-button_next:hover:not(:disabled) {
+  background: var(--glass-bg-strong);
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-select-content,
+  .ui-popover {
+    animation: none;
+  }
+}
+
+/* ---------- skins ---------- */
+
+.theme-high-contrast .ui-select-content,
+.theme-high-contrast .ui-popover {
+  border-color: var(--vscode-contrastBorder, #ffffff);
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.style-pixel .ui-select-content,
+.style-pixel .ui-popover {
+  border-width: 2px;
+  border-color: var(--pixel-ink);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--pixel-shadow);
+}
+
+.style-pixel.theme-high-contrast .ui-select-content,
+.style-pixel.theme-high-contrast .ui-popover {
+  box-shadow: none;
+}

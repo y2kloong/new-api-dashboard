@@ -6,6 +6,7 @@ import type {
 import { DashboardView } from './components/Dashboard'
 import { SetupView } from './components/Setup'
 import { SidebarView } from './components/Sidebar'
+import { PortalContainerProvider } from './components/ui/portal'
 import { post } from './vscodeApi'
 
 export interface AppProps {
@@ -26,6 +27,9 @@ export function App({ mode }: AppProps) {
   const [state, setState] = useState<DashboardViewModel | null>(null)
   const [testResult, setTestResult] = useState<TestResult | null>(null)
   const [toast, setToast] = useState<ToastState | null>(null)
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(
+    null
+  )
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent<HostToWebviewMessage>) => {
@@ -62,22 +66,27 @@ export function App({ mode }: AppProps) {
 
   return (
     <div
+      ref={setPortalContainer}
       className={`app theme-${state.themeKind} style-${state.themeStyle}`}
       data-mode={mode}
       data-theme-style={state.themeStyle}
     >
-      <div className='aurora' aria-hidden='true' />
-      <div className='scanlines' aria-hidden='true' />
-      <div className='app-inner'>
-        {mode === 'sidebar' ? (
-          <SidebarView state={state} />
-        ) : state.setupMode ? (
-          <SetupView state={state} testResult={testResult} />
-        ) : (
-          <DashboardView state={state} />
-        )}
-      </div>
-      {toast ? <div className={`toast ${toast.kind}`}>{toast.message}</div> : null}
+      <PortalContainerProvider value={portalContainer}>
+        <div className='aurora' aria-hidden='true' />
+        <div className='scanlines' aria-hidden='true' />
+        <div className='app-inner'>
+          {mode === 'sidebar' ? (
+            <SidebarView state={state} />
+          ) : state.setupMode ? (
+            <SetupView state={state} testResult={testResult} />
+          ) : (
+            <DashboardView state={state} />
+          )}
+        </div>
+        {toast ? (
+          <div className={`toast ${toast.kind}`}>{toast.message}</div>
+        ) : null}
+      </PortalContainerProvider>
     </div>
   )
 }

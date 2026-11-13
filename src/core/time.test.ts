@@ -2,22 +2,39 @@ import { describe, expect, it } from 'vitest'
 import {
   bucketLabel,
   computeTimeRange,
-  fromDatetimeLocalValue,
+  endOfLocalDay,
+  formatDateTimeMinute,
   generateBuckets,
   granularityForRangeDays,
+  replaceLocalDay,
+  replaceLocalTime,
   startOfBucket,
-  toDatetimeLocalValue,
+  startOfLocalDay,
 } from '../shared/time'
 import { baseTimestamp } from './__fixtures__/quotaRows'
 
 describe('computeTimeRange', () => {
-  it('uses a rolling window padded by one hour', () => {
-    const before = Math.floor(Date.now() / 1000)
+  it('starts at local midnight and ends at 23:59 on the last day', () => {
     const range = computeTimeRange(1)
-    const after = Math.floor(Date.now() / 1000)
-    expect(range.endTimestamp).toBeGreaterThanOrEqual(before + 3600)
-    expect(range.endTimestamp).toBeLessThanOrEqual(after + 3600)
-    expect(range.endTimestamp - range.startTimestamp).toBe(86_400)
+    expect(range.startTimestamp).toBe(startOfLocalDay(Date.now() / 1000))
+    expect(range.endTimestamp).toBe(endOfLocalDay(Date.now() / 1000))
+
+    const start = new Date(range.startTimestamp * 1000)
+    expect(start.getHours()).toBe(0)
+    expect(start.getMinutes()).toBe(0)
+
+    const end = new Date(range.endTimestamp * 1000)
+    expect(end.getHours()).toBe(23)
+    expect(end.getMinutes()).toBe(59)
+  })
+
+  it('covers whole days for multi-day presets, today included', () => {
+    const today = startOfLocalDay(Date.now() / 1000)
+    const range = computeTimeRange(7)
+    expect(range.startTimestamp).toBe(
+      startOfLocalDay(today - 6 * 86_400)
+    )
+    expect(range.endTimestamp).toBe(endOfLocalDay(today))
   })
 
   it('honours explicit boundaries', () => {
@@ -25,6 +42,22 @@ describe('computeTimeRange', () => {
       startTimestamp: 100,
       endTimestamp: 200,
     })
+  })
+})
+
+describe('local day boundaries', () => {
+  it('floors to midnight', () => {
+    const afternoon = Math.floor(new Date(2026, 0, 7, 15, 42, 31).getTime() / 1000)
+    expect(startOfLocalDay(afternoon)).toBe(
+      Math.floor(new Date(2026, 0, 7, 0, 0, 0).getTime() / 1000)
+    )
+  })
+
+  it('ends at 23:59:59', () => {
+    const morning = Math.floor(new Date(2026, 0, 7, 9, 10, 0).getTime() / 1000)
+    expect(endOfLocalDay(morning)).toBe(
+      Math.floor(new Date(2026, 0, 7, 23, 59, 59).getTime() / 1000)
+    )
   })
 })
 
@@ -92,14 +125,29 @@ describe('bucketLabel', () => {
   })
 })
 
-describe('datetime-local conversion', () => {
-  it('round trips minute precision', () => {
-    const value = toDatetimeLocalValue(baseTimestamp)
-    expect(value).toBe('2026-01-05T00:00')
-    expect(fromDatetimeLocalValue(value)).toBe(baseTimestamp)
+describe('date-time picker helpers', () => {
+  it('swaps the calendar day but keeps the time of day', () => {
+    const start = Math.floor(new Date(2026, 0, 5, 0, 0, 0).getTime() / 1000)
+    const next = replaceLocalDay(start, new Date(2026, 0, 9, 18, 30, 0))
+    const date = new Date(next * 1000)
+    expect(date.getFullYear()).toBe(2026)
+    expect(date.getMonth()).toBe(0)
+    expect(date.getDate()).toBe(9)
+    expect(date.getHours()).toBe(0)
+    expect(date.getMinutes()).toBe(0)
   })
 
-  it('rejects empty values', () => {
-    expect(fromDatetimeLocalValue('')).toBeNull()
+  it('swaps the time but keeps the calendar day', () => {
+    const end = Math.floor(new Date(2026, 0, 9, 0, 0, 0).getTime() / 1000)
+    const next = replaceLocalTime(end, 23, 59)
+    const date = new Date(next * 1000)
+    expect(date.getDate()).toBe(9)
+    expect(date.getHours()).toBe(23)
+    expect(date.getMinutes()).toBe(59)
+    expect(date.getSeconds()).toBe(0)
+  })
+
+  it('formats without seconds', () => {
+    expect(formatDateTimeMinute(baseTimestamp, 'en')).toMatch(/00:00$/)
   })
 })

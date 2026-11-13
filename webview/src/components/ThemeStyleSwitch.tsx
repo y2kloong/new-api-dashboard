@@ -3,6 +3,13 @@ import type { Locale, ThemeStyle } from '../../../src/shared/types'
 import { THEME_STYLE_LABEL_KEYS, THEME_STYLES } from '../lib/theme'
 import { post } from '../vscodeApi'
 import { MinimalIcon, PixelGlassIcon, PixelGridIcon } from './Icons'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select'
 
 const STYLE_ICONS = {
   glass: PixelGlassIcon,
@@ -31,19 +38,26 @@ export function StyleSelect({
   const t = createTranslator(locale)
 
   return (
-    <select
-      className={className ? `style-select ${className}` : 'style-select'}
+    <Select
       value={style}
-      onChange={(event) => setThemeStyle(event.target.value as ThemeStyle)}
-      aria-label={t('style.label')}
-      title={t('style.label')}
+      onValueChange={(next) => setThemeStyle(next as ThemeStyle)}
     >
-      {THEME_STYLES.map((option) => (
-        <option key={option} value={option}>
-          {t(THEME_STYLE_LABEL_KEYS[option])}
-        </option>
-      ))}
-    </select>
+      <SelectTrigger
+        size='sm'
+        className={className ? `style-select ${className}` : 'style-select'}
+        aria-label={t('style.label')}
+        title={t('style.label')}
+      >
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {THEME_STYLES.map((option) => (
+          <SelectItem key={option} value={option}>
+            {t(THEME_STYLE_LABEL_KEYS[option])}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   )
 }
 

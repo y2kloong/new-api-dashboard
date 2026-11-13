@@ -509,16 +509,11 @@
 .style-pixel .sub-card,
 .style-pixel .profile-row,
 .style-pixel .side-profile-item,
-.style-pixel .note-box,
 .style-pixel .inline-error,
 .style-pixel .inline-ok {
   border-radius: 0;
   border: 2px solid var(--pixel-ink);
   background: var(--glass-bg-strong);
-}
-
-.style-pixel .note-box {
-  border-style: dashed;
 }
 
 .style-pixel.theme-light .banner.error,

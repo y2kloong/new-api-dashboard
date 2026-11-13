@@ -7,18 +7,35 @@ export interface TimeRange {
   endTimestamp: number
 }
 
+/** Local midnight of the day that contains `timestampSeconds`. */
+export function startOfLocalDay(timestampSeconds: number): number {
+  const date = new Date(timestampSeconds * 1000)
+  date.setHours(0, 0, 0, 0)
+  return Math.floor(date.getTime() / 1000)
+}
+
+/** Local 23:59:59 of the day that contains `timestampSeconds`. */
+export function endOfLocalDay(timestampSeconds: number): number {
+  const date = new Date(timestampSeconds * 1000)
+  date.setHours(23, 59, 59, 0)
+  return Math.floor(date.getTime() / 1000)
+}
+
 /**
- * Mirrors the site's rolling range: "1 day" means the last 24 hours, and the
- * end is padded by one hour so the current bucket is fully included.
+ * Quick ranges cover whole local days, today included: "1 day" is today
+ * 00:00–23:59, "7 days" starts six days ago at 00:00 and ends today at 23:59.
+ * Adding whole days before flooring keeps the range aligned across DST shifts.
  */
 export function computeTimeRange(
   days: number,
   startTimestamp?: number,
   endTimestamp?: number
 ): TimeRange {
-  const now = Math.floor(Date.now() / 1000)
-  const end = endTimestamp ?? now + 3600
-  const start = startTimestamp ?? end - days * SECONDS_PER_DAY
+  const today = startOfLocalDay(Date.now() / 1000)
+  const start =
+    startTimestamp ??
+    startOfLocalDay(today - (days - 1) * SECONDS_PER_DAY)
+  const end = endTimestamp ?? endOfLocalDay(today)
   return { startTimestamp: start, endTimestamp: end }
 }
 
@@ -141,20 +158,36 @@ export function formatClock(timestampMs: number, locale: Locale): string {
   }).format(new Date(timestampMs))
 }
 
-/** Value for an `<input type="datetime-local">`, in the user's local timezone. */
-export function toDatetimeLocalValue(timestampSeconds: number): string {
-  const date = new Date(timestampSeconds * 1000)
-  const year = date.getFullYear()
-  const month = pad2(date.getMonth() + 1)
-  const day = pad2(date.getDate())
-  const hours = pad2(date.getHours())
-  const minutes = pad2(date.getMinutes())
-  return `${year}-${month}-${day}T${hours}:${minutes}`
+/** Date and minute-precision clock, used by the date-time picker trigger. */
+export function formatDateTimeMinute(
+  timestampSeconds: number,
+  locale: Locale
+): string {
+  if (!Number.isFinite(timestampSeconds) || timestampSeconds <= 0) return '—'
+  return new Intl.DateTimeFormat(intlLocale(locale), {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).format(new Date(timestampSeconds * 1000))
 }
 
-export function fromDatetimeLocalValue(value: string): number | null {
-  if (!value) return null
-  const parsed = new Date(value)
-  if (Number.isNaN(parsed.getTime())) return null
-  return Math.floor(parsed.getTime() / 1000)
+/** Keeps the local time of day and swaps in the calendar day of `day`. */
+export function replaceLocalDay(timestampSeconds: number, day: Date): number {
+  const next = new Date(timestampSeconds * 1000)
+  next.setFullYear(day.getFullYear(), day.getMonth(), day.getDate())
+  return Math.floor(next.getTime() / 1000)
+}
+
+/** Keeps the local calendar day and swaps in a new hour and minute. */
+export function replaceLocalTime(
+  timestampSeconds: number,
+  hours: number,
+  minutes: number
+): number {
+  const next = new Date(timestampSeconds * 1000)
+  next.setHours(hours, minutes, 0, 0)
+  return Math.floor(next.getTime() / 1000)
 }

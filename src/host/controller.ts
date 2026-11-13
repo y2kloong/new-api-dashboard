@@ -13,6 +13,7 @@ import type {
   DashboardFilters,
   DashboardPreferences,
   DashboardViewModel,
+  LanguagePreference,
   ProfileInput,
   ProfileSummary,
   QuotaRow,
@@ -103,9 +104,23 @@ export class DashboardController implements vscode.Disposable {
   }
 
   getLocale() {
+    return resolveLocale(vscode.env.language, this.getLanguagePreference())
+  }
+
+  getLanguagePreference(): LanguagePreference {
     const configuration = vscode.workspace.getConfiguration('lyNewApi')
-    const language = configuration.get<'auto' | 'zh' | 'en'>('language', 'auto')
-    return resolveLocale(vscode.env.language, language)
+    const language = configuration.get<LanguagePreference>('language', 'auto')
+    return language === 'zh' || language === 'en' ? language : 'auto'
+  }
+
+  async setLanguage(language: LanguagePreference): Promise<void> {
+    const next = language === 'zh' || language === 'en' ? language : 'auto'
+    // The language is an editor setting (not extension state) so that it also
+    // applies to command titles and survives a profile reset.
+    await vscode.workspace
+      .getConfiguration('lyNewApi')
+      .update('language', next, vscode.ConfigurationTarget.Global)
+    this.notify()
   }
 
   private getThemeKind(): ThemeKind {
@@ -217,6 +232,7 @@ export class DashboardController implements vscode.Disposable {
     return buildDashboardViewModel({
       setupMode,
       locale: this.getLocale(),
+      language: this.getLanguagePreference(),
       themeKind: this.getThemeKind(),
       profiles,
       profile: active ? this.profileStore.toSummary(active) : null,
