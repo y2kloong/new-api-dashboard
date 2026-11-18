@@ -2,7 +2,7 @@
   "name": "new-api-dashboard",
   "displayName": "NewAPI Dashboard",
   "description": "Unofficial New API usage dashboard for VS Code and Cursor: model call analytics, quota distribution and subscription status without leaving the editor.",
-  "version": "0.6.3",
+  "version": "1.0.0",
   "publisher": "y2kloong",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -38,25 +38,25 @@
   "contributes": {
     "commands": [
       {
-        "command": "lyNewApi.openDashboard",
+        "command": "newApiDashboard.openDashboard",
         "title": "Open Dashboard",
         "category": "NewAPI Dashboard",
         "icon": "$(graph)"
       },
       {
-        "command": "lyNewApi.refresh",
+        "command": "newApiDashboard.refresh",
         "title": "Refresh Data",
         "category": "NewAPI Dashboard",
         "icon": "$(refresh)"
       },
       {
-        "command": "lyNewApi.manageProfiles",
+        "command": "newApiDashboard.manageProfiles",
         "title": "Manage Server Profiles",
         "category": "NewAPI Dashboard",
         "icon": "$(settings-gear)"
       },
       {
-        "command": "lyNewApi.showLogs",
+        "command": "newApiDashboard.showLogs",
         "title": "Show Logs",
         "category": "NewAPI Dashboard"
       }
@@ -64,27 +64,24 @@
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "lyNewApi",
+          "id": "newApiDashboard",
           "title": "NewAPI Dashboard",
-          "icon": {
-            "light": "media/activity-light.svg",
-            "dark": "media/activity.svg"
-          }
+          "icon": "media/activity.svg"
         }
       ]
     },
     "views": {
-      "lyNewApi": [
+      "newApiDashboard": [
         {
           "type": "webview",
-          "id": "lyNewApi.sidebar",
+          "id": "newApiDashboard.sidebar",
           "name": "概览"
         }
       ],
       "explorer": [
         {
           "type": "webview",
-          "id": "lyNewApi.explorer",
+          "id": "newApiDashboard.explorer",
           "name": "NewAPI Dashboard",
           "contextualTitle": "NewAPI Dashboard",
           "icon": "media/activity.svg"
@@ -94,19 +91,19 @@
     "configuration": {
       "title": "NewAPI Dashboard",
       "properties": {
-        "lyNewApi.autoRefreshMinutes": {
+        "newApiDashboard.autoRefreshMinutes": {
           "type": "number",
           "default": 5,
           "minimum": 0,
           "maximum": 120,
           "markdownDescription": "Auto refresh interval in minutes while a dashboard is visible. `0` disables auto refresh."
         },
-        "lyNewApi.statusBar.enabled": {
+        "newApiDashboard.statusBar.enabled": {
           "type": "boolean",
           "default": true,
           "description": "Show the subscription quota summary in the status bar."
         },
-        "lyNewApi.language": {
+        "newApiDashboard.language": {
           "type": "string",
           "enum": [
             "auto",

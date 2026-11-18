@@ -53,7 +53,7 @@
 - **主题切换**：跟随编辑器 / 深色 / 浅色三种模式；编辑器和看板使用高对比主题时始终保持无障碍配色。
 - **主题风格**：默认使用「shadcn/ui」扁平风格，另内置「玻璃拟态」与「像素风」（Pixel Art）两套皮肤，看板头部用下拉框切换。皮肤只改变视觉语言——配色、圆角、边框、阴影、纹理与图表画法，布局、卡片和操作方式完全不变；深色 / 浅色 / 高对比编辑器下都可用。
 - **统一的配置页**：站点配置与外观设置集中在同一处，不再有重复入口。
-- **中英双语**：可在配置页的「外观 → 界面语言」中切换（跟随编辑器 / 中文 / English），也可以直接修改 `lyNewApi.language` 设置。
+- **中英双语**：可在配置页的「外观 → 界面语言」中切换（跟随编辑器 / 中文 / English），也可以直接修改 `newApiDashboard.language` 设置。
 - **自动刷新与离线兜底**：看板可见时按间隔自动刷新；刷新失败时保留最近一次成功快照，并显示「数据可能已过期」。
 
 ### 安装
@@ -124,9 +124,9 @@ cursor --install-extension new-api-dashboard-X.Y.Z.vsix
 
 | 设置项 | 默认 | 说明 |
 | --- | --- | --- |
-| `lyNewApi.autoRefreshMinutes` | `5` | 看板可见时的自动刷新间隔（分钟），`0` 关闭，最大 `120` |
-| `lyNewApi.statusBar.enabled` | `true` | 是否显示状态栏摘要 |
-| `lyNewApi.language` | `auto` | `auto` / `zh` / `en` |
+| `newApiDashboard.autoRefreshMinutes` | `5` | 看板可见时的自动刷新间隔（分钟），`0` 关闭，最大 `120` |
+| `newApiDashboard.statusBar.enabled` | `true` | 是否显示状态栏摘要 |
+| `newApiDashboard.language` | `auto` | `auto` / `zh` / `en` |
 
 图表类型、默认时间范围、主题等偏好保存在扩展自己的状态中，可在配置页或看板头部调整。
 
@@ -196,7 +196,7 @@ MIT。见 [LICENSE](https://github.com/y2kloong/new-api-dashboard/blob/main/LICE
 - **Theme switch**: follow the editor, dark or light. High-contrast editor themes always keep their accessible palette.
 - **Theme style**: **shadcn/ui** is the default flat look; *Glass* and *Pixel Art* ship as alternatives, picked from a dropdown in the dashboard header. A skin only swaps the visual language (palette, radii, borders, shadows, texture and chart rendering); layout, cards and controls stay the same. All three work in dark, light and high-contrast editors.
 - **One configuration page**: profiles and appearance in a single place, with no duplicate entry points.
-- **English / Chinese**: switch the UI language under **Appearance → Language** on the configuration page (follow editor / 中文 / English), or set `lyNewApi.language` directly.
+- **English / Chinese**: switch the UI language under **Appearance → Language** on the configuration page (follow editor / 中文 / English), or set `newApiDashboard.language` directly.
 - **Auto refresh and offline fallback**: refreshes on an interval while a dashboard is visible; a failed refresh keeps the last successful snapshot and marks the data as possibly stale.
 
 ### Install
@@ -267,9 +267,9 @@ Or use **Extensions: Install from VSIX...** from the Extensions view.
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `lyNewApi.autoRefreshMinutes` | `5` | Auto refresh interval in minutes while a dashboard is visible; `0` disables it, maximum `120` |
-| `lyNewApi.statusBar.enabled` | `true` | Show the status bar summary |
-| `lyNewApi.language` | `auto` | `auto` / `zh` / `en` |
+| `newApiDashboard.autoRefreshMinutes` | `5` | Auto refresh interval in minutes while a dashboard is visible; `0` disables it, maximum `120` |
+| `newApiDashboard.statusBar.enabled` | `true` | Show the status bar summary |
+| `newApiDashboard.language` | `auto` | `auto` / `zh` / `en` |
 
 Chart type, default time range and theme live in the extension's own state and are changed from the configuration page or the dashboard header.
 

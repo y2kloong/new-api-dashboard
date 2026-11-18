@@ -1,5 +1,6 @@
 import * as vscode from 'vscode'
 import { translate } from '../shared/i18n'
+import { COMMAND_IDS } from '../shared/identifiers'
 import type {
   DashboardFilters,
   DashboardPreferences,
@@ -109,12 +110,12 @@ export async function handleWebviewMessage(
     }
     case 'openSetup': {
       controller.openSetup()
-      await vscode.commands.executeCommand('lyNewApi.openDashboard')
+      await vscode.commands.executeCommand(COMMAND_IDS.openDashboard)
       return
     }
     case 'openDashboard': {
       controller.openDashboard()
-      await vscode.commands.executeCommand('lyNewApi.openDashboard')
+      await vscode.commands.executeCommand(COMMAND_IDS.openDashboard)
       return
     }
     case 'openExternal': {

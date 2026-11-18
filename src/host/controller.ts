@@ -5,6 +5,11 @@ import type { RawPerformanceSummary } from '../core/performance'
 import type { PlanRecord, SelfSubscriptionData } from '../core/subscription'
 import { resolveLocale, translate } from '../shared/i18n'
 import {
+  SETTINGS_SECTION,
+  SETTING_IDS,
+  SETTING_NAMES,
+} from '../shared/identifiers'
+import {
   computeTimeRange,
   granularityForRangeDays,
 } from '../shared/time'
@@ -91,7 +96,7 @@ export class DashboardController implements vscode.Disposable {
     this.disposables.push(
       vscode.window.onDidChangeActiveColorTheme(() => this.notify()),
       vscode.workspace.onDidChangeConfiguration((event) => {
-        if (event.affectsConfiguration('lyNewApi.language')) {
+        if (event.affectsConfiguration(SETTING_IDS.language)) {
           this.notify()
         }
       })
@@ -108,8 +113,11 @@ export class DashboardController implements vscode.Disposable {
   }
 
   getLanguagePreference(): LanguagePreference {
-    const configuration = vscode.workspace.getConfiguration('lyNewApi')
-    const language = configuration.get<LanguagePreference>('language', 'auto')
+    const configuration = vscode.workspace.getConfiguration(SETTINGS_SECTION)
+    const language = configuration.get<LanguagePreference>(
+      SETTING_NAMES.language,
+      'auto'
+    )
     return language === 'zh' || language === 'en' ? language : 'auto'
   }
 
@@ -118,8 +126,8 @@ export class DashboardController implements vscode.Disposable {
     // The language is an editor setting (not extension state) so that it also
     // applies to command titles and survives a profile reset.
     await vscode.workspace
-      .getConfiguration('lyNewApi')
-      .update('language', next, vscode.ConfigurationTarget.Global)
+      .getConfiguration(SETTINGS_SECTION)
+      .update(SETTING_NAMES.language, next, vscode.ConfigurationTarget.Global)
     this.notify()
   }
 

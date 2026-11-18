@@ -37,8 +37,8 @@
 - The complete account setup, token scopes and release runbook are in
   `docs/publishing.md`.
 - The extension id is `y2kloong.new-api-dashboard`; keep command ids
-  (`lyNewApi.*`), settings keys and the VSIX filename stable unless a migration
-  is planned.
+  (`newApiDashboard.*`), settings keys and the VSIX filename stable unless a
+  migration is planned.
 
 ## Agent skills
 

@@ -1,4 +1,10 @@
 import * as vscode from 'vscode'
+import {
+  COMMAND_IDS,
+  SETTINGS_SECTION,
+  SETTING_IDS,
+  SETTING_NAMES,
+} from '../shared/identifiers'
 import type { DashboardController } from './controller'
 
 export class StatusBar implements vscode.Disposable {
@@ -11,12 +17,12 @@ export class StatusBar implements vscode.Disposable {
       100
     )
     this.item.name = 'NewAPI Dashboard'
-    this.item.command = 'lyNewApi.openDashboard'
+    this.item.command = COMMAND_IDS.openDashboard
 
     this.disposables.push(
       controller.onDidChange(() => this.update()),
       vscode.workspace.onDidChangeConfiguration((event) => {
-        if (event.affectsConfiguration('lyNewApi.statusBar.enabled')) {
+        if (event.affectsConfiguration(SETTING_IDS.statusBarEnabled)) {
           this.update()
         }
       })
@@ -26,8 +32,8 @@ export class StatusBar implements vscode.Disposable {
 
   private isEnabled(): boolean {
     return vscode.workspace
-      .getConfiguration('lyNewApi')
-      .get<boolean>('statusBar.enabled', true)
+      .getConfiguration(SETTINGS_SECTION)
+      .get<boolean>(SETTING_NAMES.statusBarEnabled, true)
   }
 
   update(): void {

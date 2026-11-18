@@ -196,7 +196,7 @@ export interface DashboardErrorViewModel {
 export interface DashboardViewModel {
   setupMode: boolean
   locale: Locale
-  /** Raw `lyNewApi.language` value, so the picker can highlight `auto`. */
+  /** Raw `newApiDashboard.language` value, so the picker can highlight `auto`. */
   language: LanguagePreference
   strings: Record<string, string>
   themeKind: ThemeKind

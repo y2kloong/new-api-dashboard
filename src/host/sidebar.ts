@@ -1,11 +1,12 @@
 import * as vscode from 'vscode'
+import { VIEW_IDS } from '../shared/identifiers'
 import type { DashboardController } from './controller'
 import { getWebviewHtml } from './html'
 import { handleWebviewMessage } from './messages'
 
 export class SidebarProvider implements vscode.WebviewViewProvider, vscode.Disposable {
-  static readonly activityViewType = 'lyNewApi.sidebar'
-  static readonly explorerViewType = 'lyNewApi.explorer'
+  static readonly activityViewType = VIEW_IDS.sidebar
+  static readonly explorerViewType = VIEW_IDS.explorer
 
   private view: vscode.WebviewView | undefined
   private readonly disposables: vscode.Disposable[] = []

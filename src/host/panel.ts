@@ -1,10 +1,11 @@
 import * as vscode from 'vscode'
 import { translate } from '../shared/i18n'
+import { VIEW_IDS } from '../shared/identifiers'
 import type { DashboardController } from './controller'
 import { getWebviewHtml } from './html'
 import { handleWebviewMessage } from './messages'
 
-const VIEW_TYPE = 'lyNewApi.dashboard'
+const VIEW_TYPE = VIEW_IDS.dashboard
 
 export class DashboardPanel {
   private static current: DashboardPanel | undefined

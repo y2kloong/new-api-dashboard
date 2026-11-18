@@ -2,13 +2,17 @@
 
 ## Extension icon
 
-- Source: [iconfont.cn](https://www.iconfont.cn/) search for `看板`
-- Icon id: `3868281`
-- Original title: `数据看板`
-- Source page: <https://www.iconfont.cn/search/index?searchType=icon&q=%E7%9C%8B%E6%9D%BF>
-- Vector path reused in `media/activity.svg`, `media/activity-light.svg` and
-  `media/icon.svg`; `media/icon.png` is a 128×128 raster of `media/icon.svg`
-  drawn on a green→teal→blue gradient.
+- Source: [iconfont.cn](https://www.iconfont.cn/) search for `newapi`, second
+  result
+- Icon id: `45379853`
+- Original title: `newapi`
+- Source page: <https://www.iconfont.cn/search/index?searchType=icon&q=newapi>
+- Vector paths reused in `media/icon.svg` with their uploaded fills: `#5BA8F4`
+  left crescent, `#F964C1` right crescent, `#4BB8F3` sparkle. `media/icon.svg`
+  places the glyph on a white rounded tile; `media/icon.png` is its 128×128
+  raster. `media/activity.svg` reuses the same paths as a monochrome mask for
+  the activity bar, which the editor tints with the theme foreground color;
+  `media/activity-light.svg` is kept as the light-theme reference artwork.
 - Licensing: icons on iconfont.cn are uploaded by individual authors. Before a
   public Marketplace release, confirm the icon's collection licence (and any
   attribution requirement) on its detail page while signed in.

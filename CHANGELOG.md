@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.0.0
+
+- Cleaned the `ly` prefix out of everything the manifest exposes: command
+  ids, the activity bar container and its webview view ids, and the three
+  settings keys now use `newApiDashboard.*` instead of `lyNewApi.*`.
+- Settings keep their values across the rename: on activation the extension
+  copies `lyNewApi.*` values into the new keys at the same scope and clears
+  the old entries. Internal state and `SecretStorage` keys were not renamed,
+  so saved profiles and tokens stay intact.
+- Breaking for user keybindings: bindings that call `lyNewApi.*` commands need
+  to target the new `newApiDashboard.*` command ids.
+
+## 0.6.4
+
+- The activity bar entry is back. `viewsContainers` requires a single `icon`
+  string, so the `light`/`dark` object made the manifest invalid: the
+  `lyNewApi` view container was dropped and the dashboard view was moved into
+  the Explorer. The container now uses `media/activity.svg`, which the editor
+  masks and tints with the activity bar foreground color for both themes.
+
 ## 0.6.3
 
 - Kept the body gutter instead of removing it. The body now owns the 20px

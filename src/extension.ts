@@ -1,9 +1,16 @@
 import * as vscode from 'vscode'
 import { translate } from './shared/i18n'
+import {
+  COMMAND_IDS,
+  SETTINGS_SECTION,
+  SETTING_IDS,
+  SETTING_NAMES,
+} from './shared/identifiers'
 import { DashboardController } from './host/controller'
 import { DashboardPanel } from './host/panel'
 import { SidebarProvider } from './host/sidebar'
 import { StatusBar } from './host/statusBar'
+import { migrateLegacySettings } from './host/settingsMigration'
 
 let autoRefreshTimer: NodeJS.Timeout | undefined
 
@@ -13,8 +20,8 @@ function scheduleAutoRefresh(controller: DashboardController): void {
     autoRefreshTimer = undefined
   }
   const minutes = vscode.workspace
-    .getConfiguration('lyNewApi')
-    .get<number>('autoRefreshMinutes', 5)
+    .getConfiguration(SETTINGS_SECTION)
+    .get<number>(SETTING_NAMES.autoRefreshMinutes, 5)
   if (!Number.isFinite(minutes) || minutes <= 0) return
   autoRefreshTimer = setInterval(() => {
     if (controller.hasVisibleConsumer()) {
@@ -23,8 +30,15 @@ function scheduleAutoRefresh(controller: DashboardController): void {
   }, minutes * 60_000)
 }
 
-export function activate(context: vscode.ExtensionContext): void {
+export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const output = vscode.window.createOutputChannel('NewAPI Dashboard')
+
+  try {
+    await migrateLegacySettings()
+  } catch (error) {
+    output.appendLine(`Settings migration failed: ${String(error)}`)
+  }
+
   const controller = new DashboardController(context, output)
   const statusBar = new StatusBar(controller)
   const sidebar = new SidebarProvider(
@@ -54,25 +68,25 @@ export function activate(context: vscode.ExtensionContext): void {
       explorerView,
       { webviewOptions: { retainContextWhenHidden: true } }
     ),
-    vscode.commands.registerCommand('lyNewApi.openDashboard', () => {
+    vscode.commands.registerCommand(COMMAND_IDS.openDashboard, () => {
       DashboardPanel.createOrShow(context.extensionUri, controller)
     }),
-    vscode.commands.registerCommand('lyNewApi.refresh', async () => {
+    vscode.commands.registerCommand(COMMAND_IDS.refresh, async () => {
       await controller.refresh()
       vscode.window.setStatusBarMessage(
         `NewAPI Dashboard: ${translate(controller.getLocale(), 'toast.refreshed')}`,
         2000
       )
     }),
-    vscode.commands.registerCommand('lyNewApi.manageProfiles', () => {
+    vscode.commands.registerCommand(COMMAND_IDS.manageProfiles, () => {
       controller.openSetup()
       DashboardPanel.createOrShow(context.extensionUri, controller)
     }),
-    vscode.commands.registerCommand('lyNewApi.showLogs', () => {
+    vscode.commands.registerCommand(COMMAND_IDS.showLogs, () => {
       output.show(true)
     }),
     vscode.workspace.onDidChangeConfiguration((event) => {
-      if (event.affectsConfiguration('lyNewApi.autoRefreshMinutes')) {
+      if (event.affectsConfiguration(SETTING_IDS.autoRefreshMinutes)) {
         scheduleAutoRefresh(controller)
       }
     }),

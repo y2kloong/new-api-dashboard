@@ -298,7 +298,8 @@ DevOps 组织、PAT 或 Azure 订阅。
 ### 发布后扩展配置丢失
 
 扩展 ID 变化会导致 `SecretStorage` 和扩展状态不继承。重新打开配置页，填一次
-服务器地址和访问令牌即可。命令 ID（`lyNewApi.*`）和设置键没有变化。
+服务器地址和访问令牌即可。命令 ID 和设置键自 1.0.0 起统一为
+`newApiDashboard.*`（旧的 `lyNewApi.*` 设置会自动迁移）。
 
 ### `vsce` 拒绝图标
 
