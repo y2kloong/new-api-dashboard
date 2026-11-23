@@ -25,7 +25,7 @@ Bash / PowerShell 均可，示例以 Git Bash 为主）。
 | Release workflow | `.github/workflows/release.yml` |
 | Trusted Publishing policy | `Release workflow` |
 | Open VSX namespace | `y2kloong` |
-| 当前已发布版本 | `0.6.3` |
+| 当前已发布版本 | `1.0.1` |
 
 扩展 ID / publisher / 包名要保持一致，否则两个市场会变成另一个扩展。
 
@@ -190,8 +190,11 @@ npm run package
 
 ```bash
 set -a; . ./.env.local; set +a
-npx ovsx publish new-api-dashboard-X.Y.Z.vsix -p "$OVSX_PAT"
+./node_modules/.bin/ovsx publish new-api-dashboard-X.Y.Z.vsix -p "$OVSX_PAT"
 ```
+
+> 不要用 `npx ovsx ...`：`npx` 会把展开后的完整命令写进 `npm notice` 日志，
+> 包括 `$OVSX_PAT`。使用 `node_modules/.bin/ovsx` 可以避免 token 落进终端输出。
 
 首次发布后公共页面/接口可能有几分钟索引延迟，`404` 不一定是失败。可以轮询：
 
@@ -313,7 +316,7 @@ Marketplace 不接受 SVG 图标。本项目使用 `media/icon.png`（128×128 P
 - [ ] `CHANGELOG.md` 已更新
 - [ ] `npm ci` / `npm test` / `npm run typecheck` 通过
 - [ ] `npm run package` 生成 `new-api-dashboard-X.Y.Z.vsix`
-- [ ] Open VSX token 有效，`npx ovsx publish` 成功
+- [ ] Open VSX token 有效，`ovsx publish` 成功
 - [ ] GitHub PAT 有 Contents + Workflows 权限
 - [ ] `main` 和 `vX.Y.Z` tag 已推送
 - [ ] GitHub Actions Release 运行成功

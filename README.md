@@ -54,7 +54,7 @@
 - **主题风格**：默认使用「shadcn/ui」扁平风格，另内置「玻璃拟态」与「像素风」（Pixel Art）两套皮肤，看板头部用下拉框切换。皮肤只改变视觉语言——配色、圆角、边框、阴影、纹理与图表画法，布局、卡片和操作方式完全不变；深色 / 浅色 / 高对比编辑器下都可用。
 - **统一的配置页**：站点配置与外观设置集中在同一处，不再有重复入口。
 - **中英双语**：可在配置页的「外观 → 界面语言」中切换（跟随编辑器 / 中文 / English），也可以直接修改 `newApiDashboard.language` 设置。
-- **自动刷新与离线兜底**：看板可见时按间隔自动刷新；刷新失败时保留最近一次成功快照，并显示「数据可能已过期」。
+- **自动刷新与离线兜底**：看板可见或状态栏摘要开启时按间隔自动刷新，重新切回看板时如果数据已过期会立即刷新；刷新失败时保留最近一次成功快照，并显示「数据可能已过期」。
 
 ### 安装
 
@@ -124,7 +124,7 @@ cursor --install-extension new-api-dashboard-X.Y.Z.vsix
 
 | 设置项 | 默认 | 说明 |
 | --- | --- | --- |
-| `newApiDashboard.autoRefreshMinutes` | `5` | 看板可见时的自动刷新间隔（分钟），`0` 关闭，最大 `120` |
+| `newApiDashboard.autoRefreshMinutes` | `5` | 看板可见或状态栏摘要开启时的自动刷新间隔（分钟），`0` 关闭，最大 `120` |
 | `newApiDashboard.statusBar.enabled` | `true` | 是否显示状态栏摘要 |
 | `newApiDashboard.language` | `auto` | `auto` / `zh` / `en` |
 
@@ -197,7 +197,7 @@ MIT。见 [LICENSE](https://github.com/y2kloong/new-api-dashboard/blob/main/LICE
 - **Theme style**: **shadcn/ui** is the default flat look; *Glass* and *Pixel Art* ship as alternatives, picked from a dropdown in the dashboard header. A skin only swaps the visual language (palette, radii, borders, shadows, texture and chart rendering); layout, cards and controls stay the same. All three work in dark, light and high-contrast editors.
 - **One configuration page**: profiles and appearance in a single place, with no duplicate entry points.
 - **English / Chinese**: switch the UI language under **Appearance → Language** on the configuration page (follow editor / 中文 / English), or set `newApiDashboard.language` directly.
-- **Auto refresh and offline fallback**: refreshes on an interval while a dashboard is visible; a failed refresh keeps the last successful snapshot and marks the data as possibly stale.
+- **Auto refresh and offline fallback**: refreshes on an interval while a dashboard is visible or the status bar summary is enabled, and refreshes immediately when you return to a dashboard whose data is already older than the interval; a failed refresh keeps the last successful snapshot and marks the data as possibly stale.
 
 ### Install
 
@@ -267,7 +267,7 @@ Or use **Extensions: Install from VSIX...** from the Extensions view.
 
 | Setting | Default | Description |
 | --- | --- | --- |
-| `newApiDashboard.autoRefreshMinutes` | `5` | Auto refresh interval in minutes while a dashboard is visible; `0` disables it, maximum `120` |
+| `newApiDashboard.autoRefreshMinutes` | `5` | Auto refresh interval in minutes while a dashboard is visible or the status bar summary is enabled; `0` disables it, maximum `120` |
 | `newApiDashboard.statusBar.enabled` | `true` | Show the status bar summary |
 | `newApiDashboard.language` | `auto` | `auto` / `zh` / `en` |
 

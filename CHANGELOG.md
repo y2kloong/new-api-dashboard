@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.1
+
+- Auto refresh now also runs while the status bar summary is enabled, so the
+  status bar stays current even when no dashboard view is open. Disabling the
+  status bar and closing every dashboard still stops background refreshes.
+- Auto refresh now refreshes as soon as a dashboard becomes visible again when
+  the data is already older than the configured interval, instead of waiting
+  for the next timer tick. A tick that lands right after a manual refresh or
+  after returning to the dashboard no longer spends a duplicate request.
+- Auto refresh decisions are logged to the **NewAPI Dashboard** output channel
+  (`[auto-refresh] …`), so the refresh schedule can be checked from **Show Logs**.
+
 ## 1.0.0
 
 - Cleaned the `ly` prefix out of everything the manifest exposes: command

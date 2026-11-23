@@ -2,7 +2,7 @@
   "name": "new-api-dashboard",
   "displayName": "NewAPI Dashboard",
   "description": "Unofficial New API usage dashboard for VS Code and Cursor: model call analytics, quota distribution and subscription status without leaving the editor.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "y2kloong",
   "license": "MIT",
   "icon": "media/icon.png",
@@ -96,7 +96,7 @@
           "default": 5,
           "minimum": 0,
           "maximum": 120,
-          "markdownDescription": "Auto refresh interval in minutes while a dashboard is visible. `0` disables auto refresh."
+          "markdownDescription": "Auto refresh interval in minutes while a dashboard is visible or the status bar summary is enabled. `0` disables auto refresh."
         },
         "newApiDashboard.statusBar.enabled": {
           "type": "boolean",

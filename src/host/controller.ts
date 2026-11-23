@@ -38,6 +38,11 @@ import {
   ProfileStore,
   type StoredProfile,
 } from './profiles'
+import {
+  DEFAULT_AUTO_REFRESH_MINUTES,
+  isRefreshDue,
+  resolveAutoRefreshIntervalMs,
+} from './autoRefresh'
 
 const SNAPSHOT_PREFIX = 'lyNewApi.snapshot.'
 const MAX_CACHED_ROWS = 5000
@@ -82,6 +87,7 @@ export class DashboardController implements vscode.Disposable {
   private setupError: DashboardErrorViewModel | null = null
   private loading = false
   private busy = false
+  private refreshesInFlight = 0
   private panelVisible = false
   private readonly visibleSidebarViews = new Set<string>()
 
@@ -95,6 +101,12 @@ export class DashboardController implements vscode.Disposable {
 
     this.disposables.push(
       vscode.window.onDidChangeActiveColorTheme(() => this.notify()),
+      // Background windows and sleeping machines can delay timers, so treat
+      // regaining focus as a chance to catch up instead of waiting for the next
+      // tick.
+      vscode.window.onDidChangeWindowState((state) => {
+        if (state.focused) this.refreshIfStale('focus')
+      }),
       vscode.workspace.onDidChangeConfiguration((event) => {
         if (event.affectsConfiguration(SETTING_IDS.language)) {
           this.notify()
@@ -272,19 +284,67 @@ export class DashboardController implements vscode.Disposable {
   }
 
   setPanelVisible(visible: boolean): void {
+    const becameVisible = visible && !this.panelVisible
     this.panelVisible = visible
+    if (becameVisible) this.refreshIfStale('visible')
   }
 
   setSidebarVisible(viewId: string, visible: boolean): void {
+    const becameVisible = visible && !this.visibleSidebarViews.has(viewId)
     if (visible) {
       this.visibleSidebarViews.add(viewId)
     } else {
       this.visibleSidebarViews.delete(viewId)
     }
+    if (becameVisible) this.refreshIfStale('visible')
   }
 
+  isStatusBarEnabled(): boolean {
+    return vscode.workspace
+      .getConfiguration(SETTINGS_SECTION)
+      .get<boolean>(SETTING_NAMES.statusBarEnabled, true)
+  }
+
+  /**
+   * The status bar summary is on screen for as long as the window is open, so
+   * it counts as a consumer too: the timer keeps it within one interval even
+   * when no dashboard view is open.
+   */
   hasVisibleConsumer(): boolean {
-    return this.panelVisible || this.visibleSidebarViews.size > 0
+    return (
+      this.panelVisible ||
+      this.visibleSidebarViews.size > 0 ||
+      this.isStatusBarEnabled()
+    )
+  }
+
+  getAutoRefreshIntervalMs(): number | null {
+    const minutes = vscode.workspace
+      .getConfiguration(SETTINGS_SECTION)
+      .get<number>(
+        SETTING_NAMES.autoRefreshMinutes,
+        DEFAULT_AUTO_REFRESH_MINUTES
+      )
+    return resolveAutoRefreshIntervalMs(minutes)
+  }
+
+  /**
+   * The timer only ever refreshes data that is already old enough, so a tick
+   * that lands right after a manual refresh (or right after the dashboard
+   * became visible again) does not spend a second request.
+   */
+  refreshIfStale(trigger: 'timer' | 'visible' | 'focus'): void {
+    if (this.refreshesInFlight > 0 || !this.hasVisibleConsumer()) return
+    const intervalMs = this.getAutoRefreshIntervalMs()
+    if (intervalMs === null) return
+    const active = this.profileStore.getActive()
+    if (!active) return
+    const runtime = this.getRuntime(active.id)
+    if (!isRefreshDue(runtime.updatedAt, intervalMs, Date.now())) return
+    this.output.appendLine(
+      `[auto-refresh] ${new Date().toISOString()} ${trigger}: ${active.name}`
+    )
+    void this.refresh({ silent: true })
   }
 
   notify(): void {
@@ -338,19 +398,31 @@ export class DashboardController implements vscode.Disposable {
   }
 
   async refresh(options?: { silent?: boolean }): Promise<void> {
+    // Auto refresh is best-effort: it must not stack a second request on top
+    // of one that is already running. Manual refreshes always run.
+    if (options?.silent && this.refreshesInFlight > 0) return
+    this.refreshesInFlight += 1
+    try {
+      await this.refreshActiveProfile(options)
+    } finally {
+      this.refreshesInFlight -= 1
+      this.loading = false
+      this.notify()
+    }
+  }
+
+  private async refreshActiveProfile(options?: {
+    silent?: boolean
+  }): Promise<void> {
     const active = this.profileStore.getActive()
     if (!active) {
       this.setupRequested = true
-      this.loading = false
-      this.notify()
       return
     }
 
     const token = await this.profileStore.getToken(active.id)
     if (!token) {
       this.setupRequested = true
-      this.loading = false
-      this.notify()
       return
     }
 
@@ -413,9 +485,6 @@ export class DashboardController implements vscode.Disposable {
       this.output.appendLine(
         `[refresh] ${new Date().toISOString()} ${active.name}: ${message}`
       )
-    } finally {
-      this.loading = false
-      this.notify()
     }
   }
 

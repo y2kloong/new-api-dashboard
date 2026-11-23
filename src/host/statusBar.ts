@@ -1,10 +1,5 @@
 import * as vscode from 'vscode'
-import {
-  COMMAND_IDS,
-  SETTINGS_SECTION,
-  SETTING_IDS,
-  SETTING_NAMES,
-} from '../shared/identifiers'
+import { COMMAND_IDS, SETTING_IDS } from '../shared/identifiers'
 import type { DashboardController } from './controller'
 
 export class StatusBar implements vscode.Disposable {
@@ -31,9 +26,7 @@ export class StatusBar implements vscode.Disposable {
   }
 
   private isEnabled(): boolean {
-    return vscode.workspace
-      .getConfiguration(SETTINGS_SECTION)
-      .get<boolean>(SETTING_NAMES.statusBarEnabled, true)
+    return this.controller.isStatusBarEnabled()
   }
 
   update(): void {

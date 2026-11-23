@@ -2,9 +2,7 @@ import * as vscode from 'vscode'
 import { translate } from './shared/i18n'
 import {
   COMMAND_IDS,
-  SETTINGS_SECTION,
   SETTING_IDS,
-  SETTING_NAMES,
 } from './shared/identifiers'
 import { DashboardController } from './host/controller'
 import { DashboardPanel } from './host/panel'
@@ -19,15 +17,11 @@ function scheduleAutoRefresh(controller: DashboardController): void {
     clearInterval(autoRefreshTimer)
     autoRefreshTimer = undefined
   }
-  const minutes = vscode.workspace
-    .getConfiguration(SETTINGS_SECTION)
-    .get<number>(SETTING_NAMES.autoRefreshMinutes, 5)
-  if (!Number.isFinite(minutes) || minutes <= 0) return
+  const intervalMs = controller.getAutoRefreshIntervalMs()
+  if (intervalMs === null) return
   autoRefreshTimer = setInterval(() => {
-    if (controller.hasVisibleConsumer()) {
-      void controller.refresh({ silent: true })
-    }
-  }, minutes * 60_000)
+    controller.refreshIfStale('timer')
+  }, intervalMs)
 }
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
